@@ -10,7 +10,7 @@ An advanced version of the Genesis - Featured Page widget. Allows you to add a c
 
 == Description ==
 
-Please note that this plugin is only for Genesis Framework users. Genesis is a premium product by StudioPress (studiopress.com).
+**Please Note:** This plugin is only for Genesis Framework users. Genesis is a premium product by [StudioPress](http://www.studiopress.com).
 
 That said, most Genesis users have probably stumbled upon the *Genesis - Featured Page* widget as a great way to add page teasers/links to your homepage, footer, sidebars, or really any widget area.
 
@@ -26,22 +26,25 @@ However, sometimes you need additional functionality that is not offered in the 
 
 = To Do =
 * Internationalization
-* Add more features as needed/requested
+* Add more features as needed or requested.
 
 **Disclaimer:** This plugin is essentially a forked version of the original *Genesis - Featured Page* widget. Props go to StudioPress for developing the widget, I just modified/enhanced it. 
 
 
 == Installation ==
 
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+1. You have a couple options:
+	* *Go to Plugins->Add New and search for "Genesis - Featured Page Advanced". Once found, click "Install".
+	* *Download the folder from Wordpress.org and zip the folder. Then upload via Plugins->Add New->Upload.
+2. Activate the plugin through the 'Plugins' menu in WordPress
+
+**Please Note:** This plugin is only for Genesis Framework users. Genesis is a premium product by [StudioPress](http://www.studiopress.com). If you do not have Genesis 2.0+ or Wordpress 3.6+, the plugin will not activate. 
 
 == Screenshots ==
 
-1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage. 
+1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage. Click for [Larger Image](https://raw2.github.com/ndiego/genesis-featured-page-advanced/master/screenshot-1.png). 
 
 == Changelog ==
 
 = 1.0.0 =
-
-Initial Release
+* Initial Release
