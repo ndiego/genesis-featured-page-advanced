@@ -34,7 +34,7 @@ However, sometimes you need additional functionality that is not offered in the 
 == Installation ==
 
 1. You have a couple options:
-	* *Go to Plugins->Add New and search for "Genesis - Featured Page Advanced". Once found, click "Install".
+	* *Go to Plugins->Add New and search for "Genesis Featured Page Advanced". Once found, click "Install".
 	* *Download the folder from Wordpress.org and zip the folder. Then upload via Plugins->Add New->Upload.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
