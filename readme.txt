@@ -1,0 +1,47 @@
+=== Genesis Advanced Featured Page ===
+Contributors: ndiego
+Tags: genesis, widget
+Requires at least: 3.6
+Tested up to: 3.8
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+An advanced version of the Genesis - Featured Page widget. Allows you to add a custom image and custom content. The Genesis Framework is required. 
+
+== Description ==
+
+Please note that this plugin is only for Genesis Framework users. Genesis is a premium product by StudioPress (studiopress.com).
+
+That said, most Genesis users have probably stumbled upon the *Genesis - Featured Page* widget as a great way to add page teasers/links to your homepage, footer, sidebars, or really any widget area.
+
+However, sometimes you need additional functionality that is not offered in the core widget, such as adding a custom image or custom content. This is what *Genesis - Featured Page Advanced* does.  
+
+= Plugin Highlights =
+* Adds intuitive custom image and custom content fields
+* Add custom image using media uploader that actually works with widgets (no typing of urls)
+* Fields show/hide based on user selection for cleaner UI 
+* Works alongside the original *Genesis - Featured Page* widget and other third party widgets
+* Uses the same CSS classes as the original Genesis widget, so any styling you are currently using will be passed to this widget
+* Genesis 2.0 and HTML5 compatible 
+
+= To Do =
+* Internationalization
+* Add more features as needed/requested
+
+**Disclaimer:** This plugin is essentially a forked version of the original *Genesis - Featured Page* widget. Props go to StudioPress for developing the widget, I just modified/enhanced it. 
+
+
+== Installation ==
+
+1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+
+== Screenshots ==
+
+1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage. 
+
+== Changelog ==
+
+= 1.0.0 =
+
+Initial Release
