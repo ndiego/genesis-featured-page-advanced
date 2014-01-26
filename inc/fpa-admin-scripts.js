@@ -1,5 +1,7 @@
 jQuery(document).ready(function($){
-	  	
+
+
+	//Image Uploader function	  	
   	fpa_imageUpload = {
 
 		// Call this from the upload button to initiate the upload frame.
@@ -12,9 +14,9 @@ jQuery(document).ready(function($){
 				button : { text : 'Use Selected Image' }
 			});
 
-			// Handle results from media manager.
+			// Handle results from media manager
 			frame.on( 'close', function( ) {
-				var attachments = frame.state().get('selection').toJSON();
+				var attachments = frame.state().get( 'selection' ).toJSON();
 				fpa_imageUpload.render( widget_id, widget_id_string, attachments[0] );
 			});
 
@@ -22,28 +24,34 @@ jQuery(document).ready(function($){
 			return false;
 		},
 
-		// Output Image preview and populate widget form.
+		// Output Image preview and populate widget form
 		render : function( widget_id, widget_id_string, attachment ) {
 
-			$("#" + widget_id_string + 'preview').attr('src', attachment.url);
-			$("#" + widget_id_string + 'attachment_id').val(attachment.id);
-			$("#" + widget_id_string + 'custom_image').val(attachment.url);
+			$( "#" + widget_id_string + 'preview' ).attr( 'src', attachment.url );
+			$( "#" + widget_id_string + 'attachment_id' ).val( attachment.id );
+			$( "#" + widget_id_string + 'custom_image' ).val( attachment.url );
 			
 		},
 
 	};
 	
 	
-	//get the id from the selected item
-  	//get the prefix that corresponds to the widget
-  	//lookup the target that has id = widget_prefix . toggle_uploader and toggle
+
+	/*
+	Show and hide different image options based on selection
+	
+	- get the id from the selected input
+  	- get the prefix that corresponds to the widget
+  	- lookup the target that has id = widget_prefix . toggle_uploader and toggle
   	
-  	//Use of "document" is not very efficient, but need to use a static element or else breaks on ajax "save"
+  	Note: Use of "document" is not very efficient, but need to use a static element or else breaks on ajax "save"
+  	*/
 	$(document).on( 'click', '.fpa-show-image input', function() {
 
   	 	var input_val = $(this).val();	
-  	 	var widget_id = $(this).attr('id');
-  	 	var widget_id_prefix = widget_id.split('-').slice(0,5).join('-');  //returns the widget_prefix from the id
+  	 	var widget_id = $(this).attr( 'id' );
+  	 	//returns the widget_prefix from the id
+  	 	var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
   	 	
   	 	if ( input_val == 3 ) {
   	 		$( '#' + widget_id_prefix + '-toggle_uploader' ).show();
@@ -61,22 +69,35 @@ jQuery(document).ready(function($){
   	 	
   	 });
   	
-  	$(document).on( 'click', '.fpa-toggle-custom-content input', function() {
-	
-  	 	var widget_id = $(this).attr('id');
-  	 	var widget_id_prefix = widget_id.split('-').slice(0,5).join('-');  //returns the widget_prefix from the id
+  	 //Show and hide Page Link input on Show Title selection
+  	 $(document).on( 'click', '.fpa-toggle-page-link input', function() { 
+  	 
+  	 	var widget_id = $(this).attr( 'id' );
+  	 	var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
   	 	
-  	 	$( '#' + widget_id_prefix + '-toggle_custom_content' ).toggle(this.checked);
+  	 	$( '#' + widget_id_prefix + '-toggle_page_link' ).toggle( this.checked );
+  	 
+  	 });
+  	
+  	//Show and hide Custom Content on Show Custom Content selection
+  	 $(document).on( 'click', '.fpa-toggle-custom-content input', function() {
+	
+  	 	var widget_id = $(this).attr( 'id' );
+  	 	var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
+  	 	
+  	 	$( '#' + widget_id_prefix + '-toggle_custom_content' ).toggle( this.checked );
   	 	
   	 });
   	 
+  	 //Show and hide Character Limit input on Show Page Content selection
   	 $(document).on( 'click', '.fpa-toggle-content-limit input', function() {
   	 
-  	 	var widget_id = $(this).attr('id');
-  	 	var widget_id_prefix = widget_id.split('-').slice(0,5).join('-');  //returns the widget_prefix from the id
+  	 	var widget_id = $(this).attr( 'id' );
+  	 	var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
   	 	
-  	 	$( '#' + widget_id_prefix + '-toggle_content_limit' ).toggle(this.checked);
+  	 	$( '#' + widget_id_prefix + '-toggle_content_limit' ).toggle( this.checked );
   	 	
   	 });
+  	 
 
 });

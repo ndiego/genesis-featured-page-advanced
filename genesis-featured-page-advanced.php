@@ -4,7 +4,7 @@
 Plugin Name: Genesis Featured Page Advanced
 Plugin URI: http://www.outermostdesign.com/
 Description: Adds an enhanced version of the Genesis - Featured Page widget. The Genesis Framework 2.0+ is required.
-Version: 0.1
+Version: 1.2.1
 Author: Outermost Design
 Author URI: http://www.outermostdesign.com/
 License: GPLv2
@@ -40,7 +40,7 @@ function fpa_activation() {
 }
 
 /**
- * Deactivate Advanced Featured Page Widget if the user is not using the Genesis Framework or WP 3.6+
+ * Deactivate Genesis Featured Page Advanced widget if the user is not using the Genesis Framework or WP 3.6+
  *
  * Author: Nathan Rice
  * Author URI: http://www.nathanrice.net/
@@ -55,10 +55,15 @@ function fpa_deactivate( $genesis_version = '2.0', $wp_version = '3.6' ) {
 
 include_once dirname( __FILE__ ) . '/inc/fpa-functions.php';
 
-add_action( 'widgets_init', function(){
+
+add_action( 'widgets_init', 'fpa_register_widget' );
+/**
+ * Registers our Genesis Featured Page Advanced widget 
+ */
+function fpa_register_widget() {
 
      register_widget( 'Genesis_Featured_Page_Advanced' );
-     
-});
+    
+};
 
 

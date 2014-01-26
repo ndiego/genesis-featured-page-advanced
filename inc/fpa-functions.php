@@ -21,19 +21,22 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 	function __construct() {
 
 		$this->defaults = array(
-			'title'           		=> '',
-			'page_id'         		=> '',
-			'show_image'			=> 1,
-			'image_alignment' 		=> '',
-			'custom_image'			=> '',
-			'attachment_id'			=> 0,
-			'image_size'      		=> '',
-			'show_title'      		=> 0,
-			'show_content'    		=> 0,
-			'show_custom_content'   => 0,
-			'custom_content'  		=> '',
-			'content_limit'   		=> '',
-			'more_text'       		=> '',
+			'title'           			=> '',
+			'enable_title_link'			=> 0,
+			'page_id'         			=> '',
+			'show_image'				=> 1,
+			'image_alignment' 			=> '',
+			'custom_image'				=> '',
+			'attachment_id'				=> 0,
+			'image_size'      			=> '',
+			'show_title'      			=> 0,
+			'enable_page_title_link'	=> 0,
+			'show_content'    			=> 0,
+			'show_excerpt'				=> 0,
+			'show_custom_content'   	=> 0,
+			'custom_content'  			=> '',
+			'content_limit'   			=> '',
+			'more_text'       			=> '',
 		);
 
 		$widget_ops = array(
@@ -53,7 +56,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 
 
 	/**
-	 * Echo the widget content.
+	 * Echo the widget content on the frontend.
 	 *
 	 * @param array $args Display arguments including before_title, after_title, before_widget, and after_widget.
 	 * @param array $instance The settings for the particular instance of the widget
@@ -64,14 +67,19 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 
 		extract( $args );
 
-		//* Merge with defaults
+		// Merge with defaults
 		$instance = wp_parse_args( (array) $instance, $this->defaults );
 
 		echo $before_widget;
 
-		//* Set up the author bio
-		if ( ! empty( $instance['title'] ) )
+		// Display widget title
+		if ( ! empty( $instance['title'] ) && $instance['enable_title_link'] == 1 ) {
+			echo $before_title;
+			printf( '<a href="%s" title="%s">%s</a>', get_permalink( $instance['page_id'] ), get_the_title( $instance['page_id'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
+			echo $after_title;
+		} elseif ( ! empty( $instance['title'] ) ) {
 			echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
+		}
 
 		$wp_query = new WP_Query( array( 'page_id' => $instance['page_id'] ) );
 
@@ -90,32 +98,39 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				'attr'    => genesis_parse_attr( 'entry-image-widget' ),
 			) );
 			
-			if ( $instance['show_image'] == 2 && $image )
+			// Display featured image
+			if ( $instance['show_image'] == 2 && $image ) {
 				printf( '<a href="%s" title="%s" class="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $image );
+			}
 			
-			/* Display Custom Image */
-			if ( $instance['show_image'] == 3 )
+			// Display custom image
+			if ( $instance['show_image'] == 3 ) {
 				printf( '<a href="%s" title="%s" class="%s"><img src="%s"/></a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $instance['custom_image'] );
+			}
 			
-			if ( ! empty( $instance['show_title'] ) ) {
-				if ( genesis_html5() )
+			// Display page title
+			if ( ! empty( $instance['show_title'] ) && $instance['enable_page_title_link'] == 1 ) {
+				if ( genesis_html5() ) {
 					printf( '<header class="entry-header"><h2 class="entry-title"><a href="%s" title="%s">%s</a></h2></header>', get_permalink(), the_title_attribute( 'echo=0' ), get_the_title() );
-				else
+				} else {
 					printf( '<h2><a href="%s" title="%s">%s</a></h2>', get_permalink(), the_title_attribute( 'echo=0' ), get_the_title() );
-			}	
+				}
+			} elseif ( ! empty( $instance['show_title'] ) ) {
+				if ( genesis_html5() ) {
+					printf( '<header class="entry-header"><h2 class="entry-title">%s</h2></header>', get_the_title() );
+				} else {
+					printf( '<h2>%s</h2>', get_the_title() );
+				}
+			}
 			
-
+			
+			// Display page content
 			if ( ! empty( $instance['show_content'] ) ) {
 				
 				echo genesis_html5() ? '<div class="entry-content">' : '';
 
 				if ( empty( $instance['content_limit'] ) ) {
-				
-					//global $more;
-					//$more = 0;
-					
 					the_content( $instance['more_text'] );
-					
 				} else {
 					the_content_limit( (int) $instance['content_limit'], esc_html( $instance['more_text'] ) );
 				}
@@ -124,7 +139,22 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 
 			}
 			
-			/* Display Custom Content */
+			// Display page excerpt
+			if ( ! empty( $instance['show_excerpt'] ) ) {
+				
+				echo genesis_html5() ? '<div class="entry-content">' : '';
+				
+				echo '<p>' . get_the_excerpt() . ' ';
+				if ( ! empty( $instance['more_text'] ) ) {
+					printf( '<a href="%s" class="more-link">%s</a>', get_permalink(), esc_attr( $instance['more_text'] ) );
+				}
+				echo '</p>';
+				
+				echo genesis_html5() ? '</div>' : '';
+				
+			}
+			
+			// Display custom content
 			if ( $instance['show_custom_content'] == 1 && ! empty( $instance['custom_content'] ) ) {
 				
 				echo genesis_html5() ? '<div class="entry-content">' : '';
@@ -147,7 +177,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			endwhile;
 		endif;
 
-		//* Restore original query
+		// Restore original query
 		wp_reset_query();
 
 		echo $after_widget;
@@ -178,23 +208,31 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 
 
 	/**
-	 * Echo the settings update form.
+	 * Echo the settings update form on admin widget page.
 	 *
 	 * @param array $instance Current settings
 	 */
 	function form( $instance ) {
 
-		/** Merge with defaults */
+		// Merge with defaults 
 		$instance = wp_parse_args( (array) $instance, $this->defaults );
 
-		$id_prefix = $this->get_field_id(''); //Very important for image uploader
+		//Gets widget id prefix, very important for image uploader
+		$id_prefix = $this->get_field_id('');
 
 		?>
+		
+		<!--Widget Title Block-->
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php echo ('Title'); ?>:</label>
 			<input type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat" />
 		</p>
-
+		<p>
+			<input id="<?php echo $this->get_field_id( 'enable_title_link' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'enable_title_link' ); ?>" value="1" <?php checked( $instance['enable_title_link'] ); ?> />
+			<label for="<?php echo $this->get_field_id( 'enable_title_link' ); ?>"><?php echo ('Enable Title Link'); ?></label>	
+		</p>
+		
+		<!--Featured Page Selection-->
 		<p>
 			<label for="<?php echo $this->get_field_id( 'page_id' ); ?>"><?php echo ('Page'); ?>:</label>
 			<?php wp_dropdown_pages( array( 'name' => $this->get_field_name( 'page_id' ), 'selected' => $instance['page_id'] ) ); ?>
@@ -202,7 +240,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 
 		<hr class="div" />
 		
-		<!--New image type selection-->
+		<!--Image Type Selection-->
 		<div class="fpa-show-image">
 			<label for="<?php echo $this->get_field_id( 'show_no_image' ); ?>">
 				<input type="radio" id="<?php echo $this->get_field_id( 'show_no_image' ); ?>" name="<?php echo $this->get_field_name( 'show_image' ); ?>" value="1" <?php checked( 1, $instance['show_image'] ); ?> />
@@ -218,6 +256,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			</label>
 		</div>
 		
+		<!--Show Featured Image-->
 		<div class="fpa-image-size <?php if ( $instance['show_image'] != 2 ) echo ('hidden');  ?>" id="<?php echo $this->get_field_id('toggle_image_size'); ?>" >
 			<label for="<?php echo $this->get_field_id( 'image_size' ); ?>"><?php echo ('Image Size'); ?>:</label>
 			<select id="<?php echo $this->get_field_id( 'image_size' ); ?>" class="genesis-image-size-selector" name="<?php echo $this->get_field_name( 'image_size' ); ?>">
@@ -232,7 +271,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			</select>
 		</div>
 		
-		<!--New upload block for custom image-->		
+		<!--Show Custom Image-->		
 		<div class="<?php if ( $instance['show_image'] != 3 ) echo ('hidden'); ?>" id="<?php echo $this->get_field_id('toggle_uploader'); ?>"  >
 			<input type="submit" class="button fpa-uploader-button" name="<?php echo $this->get_field_name('uploader_button'); ?>" id="<?php echo $this->get_field_id('uploader_button'); ?>" value="<?php _e( 'Select an Image', 'genesis' ); ?>" onclick="fpa_imageUpload.uploader( '<?php echo $this->id; ?>', '<?php echo $id_prefix; ?>' ); return false;" />
 			<div class="fpa-image-preview-wrapper">
@@ -248,6 +287,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			<input type="hidden" id="<?php echo $this->get_field_id('custom_image'); ?>" name="<?php echo $this->get_field_name('custom_image'); ?>" value="<?php echo $instance['custom_image']; ?>" />
 		</div>
 
+		<!--Image Alignment-->
 		<p class="<?php if ( $instance['show_image'] == 1 ) echo ('hidden'); ?>" id="<?php echo $this->get_field_id('toggle_image_alignment'); ?>" >
 			<label for="<?php echo $this->get_field_id( 'image_alignment' ); ?>"><?php echo ('Image Alignment'); ?>:</label>
 			<select id="<?php echo $this->get_field_id( 'image_alignment' ); ?>" name="<?php echo $this->get_field_name( 'image_alignment' ); ?>">
@@ -259,33 +299,48 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 
 		<hr class="div" />
 
-		<p>
+		<!--Page Title Block-->
+		<p class="fpa-toggle-page-link">
 			<input id="<?php echo $this->get_field_id( 'show_title' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'show_title' ); ?>" value="1" <?php checked( $instance['show_title'] ); ?> />
 			<label for="<?php echo $this->get_field_id( 'show_title' ); ?>"><?php echo ('Show Page Title'); ?></label>
 		</p>
-
+		<p class="<?php if ( $instance['show_title'] != 1 ) echo ('hidden'); ?>" id="<?php echo $this->get_field_id('toggle_page_link'); ?>">
+			<input id="<?php echo $this->get_field_id( 'enable_page_title_link' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'enable_page_title_link' ); ?>" value="1" <?php checked( 1, $instance['enable_page_title_link'] ); ?> />
+			<label for="<?php echo $this->get_field_id( 'enable_page_title_link' ); ?>"><?php echo ('Enable Page Title Link'); ?></label>
+		</p>
+		
+		<hr class="div" />
+		
+		<!--Page Content Block-->
 		<p class="fpa-toggle-content-limit">
 			<input id="<?php echo $this->get_field_id( 'show_content' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'show_content' ); ?>" value="1" <?php checked( $instance['show_content'] ); ?> />
 			<label for="<?php echo $this->get_field_id( 'show_content' ); ?>"><?php echo ('Show Page Content'); ?></label>
 		</p>
-		
 		<p class="<?php if ( $instance['show_content'] != 1 ) echo ('hidden'); ?>" id="<?php echo $this->get_field_id('toggle_content_limit'); ?>">
 			<label for="<?php echo $this->get_field_id( 'content_limit' ); ?>"><?php echo ('Content Character Limit'); ?>:</label>
 			<input type="text" id="<?php echo $this->get_field_id( 'content_limit' ); ?>" name="<?php echo $this->get_field_name( 'content_limit' ); ?>" value="<?php echo esc_attr( $instance['content_limit'] ); ?>" size="3" />
 		</p>
 		
-		<!--New custom content block-->
-		<p class="fpa-toggle-custom-content">
-			<input id="<?php echo $this->get_field_id( 'show_custom_content' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'show_custom_content' ); ?>" value="1" <?php checked( $instance['show_custom_content'] ); ?> />
-			<label for="<?php echo $this->get_field_id( 'show_custom_content' ); ?>"><?php echo ('Enable Custom Content'); ?></label>
+		<!--Enable Page Excerpt-->
+		<p>
+			<input id="<?php echo $this->get_field_id( 'show_excerpt' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'show_excerpt' ); ?>" value="1" <?php checked( $instance['show_excerpt'] ); ?> />
+			<label for="<?php echo $this->get_field_id( 'show_excerpt' ); ?>"><?php echo ('Show Page Excerpt'); ?></label>
 		</p>
 		
+		<!--Custom Content Block-->
+		<p class="fpa-toggle-custom-content">
+			<input id="<?php echo $this->get_field_id( 'show_custom_content' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'show_custom_content' ); ?>" value="1" <?php checked( $instance['show_custom_content'] ); ?> />
+			<label for="<?php echo $this->get_field_id( 'show_custom_content' ); ?>"><?php echo ('Show Custom Content'); ?></label>
+		</p>
 		<p class="<?php if ( $instance['show_custom_content'] != 1 ) echo ('hidden'); ?>" id="<?php echo $this->get_field_id('toggle_custom_content'); ?>">
 			<label for="<?php echo $this->get_field_id( 'custom_content' ); ?>"><?php echo ('Custom Content'); ?>:</label><br />
 			<textarea rows="4" id="<?php echo $this->get_field_id( 'custom_content' ); ?>" name="<?php echo $this->get_field_name( 'custom_content' ); ?>" class="widefat" style="max-width: 100%" ><?php echo esc_attr( $instance['custom_content'] ); ?></textarea>
 		</p>
 
-		<p>
+		<hr class="div" />
+
+		<!--Read More Button/Text-->
+		<p class="fpa-read-more">
 			<label for="<?php echo $this->get_field_id( 'more_text' ); ?>"><?php echo ('More Text'); ?>:</label>
 			<input type="text" id="<?php echo $this->get_field_id( 'more_text' ); ?>" name="<?php echo $this->get_field_name( 'more_text' ); ?>" value="<?php echo esc_attr( $instance['more_text'] ); ?>" />
 		</p>
@@ -326,6 +381,9 @@ function fpa_css_head(){
 	.fpa-uploader-button {
 		margin: .75em 0 .25em !important;
 		width: 100%;
+	}
+	.fpa-read-more {
+		margin-bottom: 2em;
 	}
 	</style>
 <?php
