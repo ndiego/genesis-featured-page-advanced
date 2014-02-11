@@ -4,7 +4,7 @@
 Plugin Name: Genesis Featured Page Advanced
 Plugin URI: http://www.outermostdesign.com/
 Description: Adds an enhanced version of the Genesis - Featured Page widget. The Genesis Framework 2.0+ is required.
-Version: 1.2.1
+Version: 1.3
 Author: Outermost Design
 Author URI: http://www.outermostdesign.com/
 License: GPLv2
@@ -24,32 +24,31 @@ License: GPLv2
 */
 
 
-register_activation_hook( __FILE__, 'fpa_activation' );
+
+register_activation_hook( __FILE__, 'fpa_activation_check' );
 /**
- * This function runs on plugin activation. It checks to make sure Genesis
- * or a Genesis child theme is active. If not, it deactivates itself.
+ * This function runs on plugin activation. It checks to make sure the required
+ * minimum Genesis version is installed. If not, it deactivates itself.
  *
  * 	Author: Nathan Rice
  *	Author URI: http://www.nathanrice.net/
  */
-function fpa_activation() {
+function fpa_activation_check() {
 
-	if ( ! defined( 'PARENT_THEME_VERSION' ) || ! version_compare( PARENT_THEME_VERSION, '2.0', '>=' ) )
-		fpa_deactivate( '2.0', '3.6' );
+		$latest = '2.0';
 
-}
+		$theme_info = wp_get_theme();
 
-/**
- * Deactivate Genesis Featured Page Advanced widget if the user is not using the Genesis Framework or WP 3.6+
- *
- * Author: Nathan Rice
- * Author URI: http://www.nathanrice.net/
- */
-function fpa_deactivate( $genesis_version = '2.0', $wp_version = '3.6' ) {
-	
-	deactivate_plugins( plugin_basename( __FILE__ ) );
-	wp_die( sprintf( 'Sorry, the minimum requirements for <em>Genesis - Featured Page Advanced</em> are WordPress %s and <a href="%s" target="_blank">Genesis %s</a>. You must upgrade and/or purchase Genesis to use this plugin. Go back to the <a href="javascript:history.back()">Plugins Page.</a>', $wp_version, 'http://www.studiopress.com', $genesis_version) );
-	
+		if ( 'genesis' != basename( TEMPLATEPATH ) ) {
+	        deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
+			wp_die( sprintf( 'Sorry, you can\'t activate <em>Genesis - Featured Page Advanced</em> unless you have installed the <a href="%s" target="_blank">Genesis Framework</a>. Go back to the <a href="javascript:history.back()">Plugins Page</a>.', 'http://www.studiopress.com/themes/genesis' ) );
+		}
+
+		if ( version_compare( $theme_info['Version'], $latest, '<' ) ) {
+			deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
+			wp_die( sprintf( 'Sorry, you cannot activate <em>Genesis - Featured Page Advanced</em> without <a href="%s" target="_blank">Genesis %s</a> or greater. Go back to the <a href="javascript:history.back()">Plugins Page</a>.', 'http://www.studiopress.com/themes/genesis', $latest ) );
+		}
+
 }
 
 

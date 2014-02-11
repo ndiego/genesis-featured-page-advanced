@@ -26,6 +26,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			'page_id'         			=> '',
 			'show_image'				=> 1,
 			'image_alignment' 			=> '',
+			'enable_image_link'			=> 0,
 			'custom_image'				=> '',
 			'attachment_id'				=> 0,
 			'image_size'      			=> '',
@@ -100,12 +101,20 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			
 			// Display featured image
 			if ( $instance['show_image'] == 2 && $image ) {
-				printf( '<a href="%s" title="%s" class="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $image );
+				if ( $instance['enable_image_link'] == 1 ) {
+					printf( '<a href="%s" title="%s" class="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $image );
+				} else {
+					echo '<img src="' . $image .'"/>';
+				}
 			}
 			
 			// Display custom image
 			if ( $instance['show_image'] == 3 ) {
-				printf( '<a href="%s" title="%s" class="%s"><img src="%s"/></a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $instance['custom_image'] );
+				if ( $instance['enable_image_link'] == 1 ) {
+					printf( '<a href="%s" title="%s" class="%s"><img src="%s"/></a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $instance['custom_image'] );
+				} else {
+					echo '<img src="' . $instance['custom_image'] .'"/></a>';
+				}
 			}
 			
 			// Display page title
@@ -296,7 +305,12 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				<option value="alignright" <?php selected( 'alignright', $instance['image_alignment'] ); ?>><?php echo ('Right'); ?></option>
 			</select>
 		</p>
-
+		
+		<p class="<?php if ( $instance['show_image'] == 1 ) echo ('hidden'); ?>" id="<?php echo $this->get_field_id('toggle_image_link'); ?>">
+			<input id="<?php echo $this->get_field_id( 'enable_image_link' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'enable_image_link' ); ?>" value="1" <?php checked( 1, $instance['enable_image_link'] ); ?> />
+			<label for="<?php echo $this->get_field_id( 'enable_image_link' ); ?>"><?php echo ('Enable Image Link'); ?></label>
+		</p>
+		
 		<hr class="div" />
 
 		<!--Page Title Block-->
@@ -351,46 +365,47 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 }
 
 
+add_action('admin_head', 'fpa_css_head');
 /**
  * Admin header css
  */
 function fpa_css_head(){
 ?>
 	<style>
-	.fpa-show-image label {
-		display: inline-block;
-		margin: .5em 0;
-	}
-	.fpa-image-size {
-		margin: 1em 0 0;
-	}
-	.fpa-image-preview-wrapper {
-		border: 1px solid #e5e5e5;
-		margin: 1em 0;
-		display: block;
-	}
-	.fpa-image-preview-inner {
-		border: 1px solid #e5e5e5;
-		margin: .5em;
-		display: block;	
-	}
-	.fpa-image-preview-inner img {
-		vertical-align: top;
-		width: 100%;
-	}
-	.fpa-uploader-button {
-		margin: .75em 0 .25em !important;
-		width: 100%;
-	}
-	.fpa-read-more {
-		margin-bottom: 2em;
-	}
+		.fpa-show-image label {
+			display: inline-block;
+			margin: .5em 0;
+		}
+		.fpa-image-size {
+			margin: 1em 0 0;
+		}
+		.fpa-image-preview-wrapper {
+			border: 1px solid #e5e5e5;
+			margin: 1em 0;
+			display: block;
+		}
+		.fpa-image-preview-inner {
+			border: 1px solid #e5e5e5;
+			margin: .5em;
+			display: block;	
+		}
+		.fpa-image-preview-inner img {
+			vertical-align: top;
+			width: 100%;
+		}
+		.fpa-uploader-button {
+			margin: .75em 0 .25em !important;
+			width: 100%;
+		}
+		.fpa-read-more {
+			margin-bottom: 2em;
+		}
 	</style>
 <?php
 }
-add_action('admin_head', 'fpa_css_head');
 
 
+add_action( 'admin_enqueue_scripts', 'fpa_admin_scripts_enqueue' );
 /**
  * Admin js enqueue - allows us to show/hide certain fields and upload custom image
  */
@@ -403,5 +418,5 @@ function fpa_admin_scripts_enqueue() {
 	wp_enqueue_script( 'fpa-admin-scripts' );
 
 }
-add_action( 'admin_enqueue_scripts', 'fpa_admin_scripts_enqueue' );
+
 
