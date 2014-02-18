@@ -3,7 +3,7 @@ Contributors: ndiego, outermostdesign
 Tags: featured page, genesis, widget, featured content, Genesis Framework, genesiswp, page, widget-only, widgets
 Requires at least: 3.6
 Tested up to: 3.8
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ However, sometimes you need additional functionality that is not offered in the 
 1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage. Click for [Larger Image](https://raw2.github.com/ndiego/genesis-featured-page-advanced/master/screenshot-1.jpg). 
 
 == Changelog ==
+
+= 1.3.1 =
+* Fixed user reported error
 
 = 1.3.0 =
 * Added option to remove page link from the image
