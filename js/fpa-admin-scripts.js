@@ -1,6 +1,5 @@
 jQuery(document).ready(function($){
 
-
 	//Image Uploader function	  	
   	fpa_imageUpload = {
 
@@ -71,14 +70,38 @@ jQuery(document).ready(function($){
   	 	}	
   	 	
   	 });
+  	 
+  	//Show and hide feature selections
+	$(document).on( 'click', '.fpa-feature-type input', function() {
+
+  	 	var input_val = $(this).val();	
+  	 	var widget_id = $(this).attr( 'id' );
+  	 	//returns the widget_prefix from the id
+  	 	var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
+  	 	
+  	 	if ( input_val == 'page' ) {
+  	 		$( '#' + widget_id_prefix + '-feature_type_page' ).show();
+  	 		$( '#' + widget_id_prefix + '-feature_type_page_settings' ).show();
+  	 		$( '#' + widget_id_prefix + '-show_featured_image' ).attr( 'disabled', false);
+  	 		$( '#' + widget_id_prefix + '-featured_image_color' ).removeClass( 'fpa-disabled' );
+  	 		$( '#' + widget_id_prefix + '-feature_type_custom' ).hide();
+  	 	} else if ( input_val == 'custom' ) {
+  	 		$( '#' + widget_id_prefix + '-feature_type_page' ).hide();
+  	 		$( '#' + widget_id_prefix + '-feature_type_page_settings' ).hide();
+  	 		$( '#' + widget_id_prefix + '-show_featured_image' ).attr( 'disabled', true);
+  	 		$( '#' + widget_id_prefix + '-featured_image_color' ).addClass( 'fpa-disabled' );
+  	 		$( '#' + widget_id_prefix + '-feature_type_custom' ).show();
+  	 	}
+  	 	
+  	 });
   	
   	 //Show and hide Page Link input on Show Title selection
-  	 $(document).on( 'click', '.fpa-toggle-page-link input', function() { 
+  	 $(document).on( 'click', '.fpa-toggle-page-settings input', function() { 
   	 
   	 	var widget_id = $(this).attr( 'id' );
   	 	var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
   	 	
-  	 	$( '#' + widget_id_prefix + '-toggle_page_link' ).toggle( this.checked );
+  	 	$( '#' + widget_id_prefix + '-toggle_page_settings' ).toggle( this.checked );
   	 
   	 });
   	

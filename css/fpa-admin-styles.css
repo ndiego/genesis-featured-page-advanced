@@ -1,0 +1,31 @@
+.fpa-radio label {
+	display: inline-block;
+	margin: .5em 0;
+}
+.fpa-disabled {
+	color: #d1d1d1;
+}
+.fpa-image-size {
+	margin: 1em 0 0;
+}
+.fpa-image-preview-wrapper {
+	border: 1px solid #e5e5e5;
+	margin: 1em 0;
+	display: block;
+}
+.fpa-image-preview-inner {
+	border: 1px solid #e5e5e5;
+	margin: .5em;
+	display: block;	
+}
+.fpa-image-preview-inner img {
+	vertical-align: top;
+	width: 100%;
+}
+.fpa-uploader-button {
+	margin: .75em 0 .25em !important;
+	width: 100%;
+}
+.fpa-read-more {
+	margin-bottom: 2em;
+}

@@ -1,12 +1,12 @@
 <?php
-
 /*
 Plugin Name: Genesis Featured Page Advanced
 Plugin URI: http://www.outermostdesign.com/
 Description: Adds an enhanced version of the Genesis - Featured Page widget. The Genesis Framework 2.0+ is required.
-Version: 1.3.1
+Version: 1.5.0
 Author: Outermost Design
 Author URI: http://www.outermostdesign.com/
+Text Domain: genesis-featured-page-advanced
 License: GPLv2
 
     This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,7 @@ License: GPLv2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+defined( 'WPINC' ) or die;
 
 
 register_activation_hook( __FILE__, 'fpa_activation_check' );
@@ -41,18 +42,21 @@ function fpa_activation_check() {
 
 		if ( 'genesis' != basename( TEMPLATEPATH ) ) {
 	        deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
-			wp_die( sprintf( 'Sorry, you can\'t activate <em>Genesis - Featured Page Advanced</em> unless you have installed the <a href="%s" target="_blank">Genesis Framework</a>. Go back to the <a href="javascript:history.back()">Plugins Page</a>.', 'http://www.studiopress.com/themes/genesis' ) );
+			wp_die( sprintf( __( 'Sorry, you can\'t activate %1$sGenesis - Featured Page Advanced%2$s unless you have installed the %3$sGenesis Framework%4$s. Go back to the %5$sPlugins Page%4$s.', 'genesis-featured-page-advanced' ), '<em>', '</em>', '<a href="http://www.studiopress.com/themes/genesis" target="_blank">', '</a>', '<a href="javascript:history.back()">' ) );
 		}
 
 		if ( version_compare( $theme_info['Version'], $latest, '<' ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
-			wp_die( sprintf( 'Sorry, you cannot activate <em>Genesis - Featured Page Advanced</em> without <a href="%s" target="_blank">Genesis %s</a> or greater. Go back to the <a href="javascript:history.back()">Plugins Page</a>.', 'http://www.studiopress.com/themes/genesis', $latest ) );
+			wp_die( sprintf( __( 'Sorry, you can\'t activate %1$sGenesis - Featured Page Advanced%2$s unless you have installed the %3$sGenesis %4$s%5$s. Go back to the %6$sPlugins Page%5$s.', 'genesis-featured-page-advanced' ), '<em>', '</em>', '<a href="http://www.studiopress.com/themes/genesis" target="_blank">', $latest, '</a>', '<a href="javascript:history.back()">' ) );
 		}
 
 }
 
 
-include_once dirname( __FILE__ ) . '/inc/fpa-functions.php';
+/**
+ * Include out Widget Class file 
+ */
+include_once dirname( __FILE__ ) . '/inc/fpa-widget-class.php';
 
 
 add_action( 'widgets_init', 'fpa_register_widget' );
