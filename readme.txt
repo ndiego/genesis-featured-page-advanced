@@ -2,7 +2,7 @@
 Contributors: ndiego, outermostdesign
 Tags: featured page, genesis, widget, featured content, Genesis Framework, genesiswp, page, widget-only, widgets
 Requires at least: 3.6
-Tested up to: 3.8.2
+Tested up to: 3.9.1
 Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@ An advanced version of the Genesis - Featured Page widget. Allows you to add a c
 
 That said, most Genesis users have probably stumbled upon the *Genesis - Featured Page* widget as a great way to add page teasers/links to your homepage, footer, sidebars, or really any widget area.
 
-However, sometimes you need additional functionality that is not offered in the core widget, such as adding a custom image or custom content. This is what *Genesis - Featured Page Advanced* does.  
+However, sometimes you need additional functionality that is not offered in the core widget, such as adding a custom image or custom content. This is what *Genesis Featured Page Advanced* does.  
 
 = Plugin Highlights =
 * NEW: Display widget title above or below image (Defaults above)
@@ -48,7 +48,8 @@ If you are looking for additional features, let me know in the plugin support fo
 
 == Screenshots ==
 
-1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage.
+1. Admin and frontend view of the Genesis Featured Page Advanced widget. Highlights widget defaults and normal usage.
+2. Admin and frontend view of the Genesis Featured Page Advanced widget. Highlights advanced usage and advanced usage with a custom link.
 
 == Changelog ==
 
@@ -57,7 +58,6 @@ If you are looking for additional features, let me know in the plugin support fo
 * Added option to move Widget Title below image
 * Added option to move Page Title above image
 * Fixed issue with widget Admin CSS not working in Customizer
-* Cleaned up code
 
 = 1.4.0 =
 * Internationalized the plugin
