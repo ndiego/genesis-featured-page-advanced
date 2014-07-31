@@ -223,7 +223,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				
 				echo genesis_html5() ? '<div class="entry-content">' : '';
 				
-				echo '<p>' . $instance['custom_content'] . ' ';
+				echo '<p>' . wp_kses_post( $instance['custom_content'] ) . ' ';
 				if ( $instance['feature_type'] == 'page' && ! empty( $instance['more_text'] ) ) {
 					printf( '<a href="%s" class="more-link">%s</a>', get_permalink(), esc_attr( $instance['more_text'] ) );
 				} elseif ( $instance['feature_type'] == 'custom' && ! empty( $instance['more_text'] ) ) {
@@ -267,7 +267,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 		$new_instance['title']     			= strip_tags( $new_instance['title'] );
 		$new_instance['custom_link'] 		= strip_tags( $new_instance['custom_link'] );
 		$new_instance['custom_image']       = strip_tags( $new_instance['custom_image'] );
-		$new_instance['custom_content']     = strip_tags( $new_instance['custom_content'] );
+		$new_instance['custom_content']     = $new_instance['custom_content'];
 		$new_instance['more_text'] 			= strip_tags( $new_instance['more_text'] );
 		return $new_instance;
 
@@ -445,7 +445,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 		</p>
 		<p class="<?php if ( $instance['show_custom_content'] != 1 ) echo ('hidden'); ?>" id="<?php echo $this->get_field_id('toggle_custom_content'); ?>">
 			<label for="<?php echo $this->get_field_id( 'custom_content' ); ?>"><?php _e( 'Custom Content', 'genesis-featured-page-advanced' ); ?>:</label><br />
-			<textarea rows="4" id="<?php echo $this->get_field_id( 'custom_content' ); ?>" name="<?php echo $this->get_field_name( 'custom_content' ); ?>" class="widefat" style="max-width: 100%" ><?php echo esc_attr( $instance['custom_content'] ); ?></textarea>
+			<textarea rows="4" id="<?php echo $this->get_field_id( 'custom_content' ); ?>" name="<?php echo $this->get_field_name( 'custom_content' ); ?>" class="widefat" style="max-width: 100%" ><?php echo esc_html( $instance['custom_content'] ); ?></textarea>
 		</p>
 
 		<hr class="div" />
