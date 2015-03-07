@@ -155,13 +155,13 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				if ( $instance['feature_type'] == 'page' && $instance['enable_image_link'] == 1 ) {
 					printf( '<a href="%s" title="%s" class="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
 				} elseif ($instance['feature_type'] == 'custom' && $instance['enable_image_link'] == 1 ) {
-					printf( '<a href="%s" title="%s" class="%s"><img src="%s" alt="%s" class="entry-image" /></a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), esc_attr( $instance['image_alignment'] ), $instance['custom_image'], get_post_meta( $instance['attachment_id'], '_wp_attachment_image_alt', true) );
+					printf( '<a href="%s" title="%s" class="%s">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
 				} else {
 					//* The <span> replaces the <a> so the image alignment feature still works (we manually apply the styling to image)
 					if ( $instance['image_alignment'] == 'aligncenter' ) {
-						printf( '<span class="%s"><img src="%s" style="display:block;margin:0 auto;" alt="%s" class="entry-image" /></span>', esc_attr( $instance['image_alignment'] ), $instance['custom_image'], get_post_meta( $instance['attachment_id'], '_wp_attachment_image_alt', true) );
+						printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image', 'style' => 'display:block;margin:0 auto;' ) ) );
 					} else {
-						printf( '<span class="%s"><img src="%s" alt="%s" class="entry-image" /></span>', esc_attr( $instance['image_alignment'] ), $instance['custom_image'], get_post_meta( $instance['attachment_id'], '_wp_attachment_image_alt', true) );
+						printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
 					}
 				}
 			}
