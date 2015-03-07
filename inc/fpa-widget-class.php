@@ -32,11 +32,12 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			'page_id'         			=> '',
 			'custom_link'				=> '',
 			'show_image'				=> 1,
-			'image_alignment' 			=> '',
+			'image_size'      			=> 'thumbnail',
+			'image_alignment' 			=> 'alignnone',
 			'enable_image_link'			=> 0,
 			'custom_image'				=> '',
 			'attachment_id'				=> 0,
-			'image_size'      			=> '',
+			'custom_image_size'      	=> 'full',
 			'show_title'      			=> 0,
 			'page_title_above'			=> 0,
 			'enable_page_title_link'	=> 0,
@@ -46,6 +47,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			'custom_content'  			=> '',
 			'content_limit'   			=> '',
 			'more_text'       			=> '',
+			'more_text_new_line'		=> 0,
 		);
 
 		$widget_ops = array(
@@ -139,20 +141,28 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				if ( $instance['enable_image_link'] == 1 ) {
 					printf( '<a href="%s" title="%s" class="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $image );
 				} else {
-					//* The <span> replaces the <a> so the image alignment feature still works
-					printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), $image );
+					//* The <span> replaces the <a> so the image alignment feature still works (unfortunately need to use text-align here, which is not optimal)
+					if ( $instance['image_alignment'] == 'aligncenter' ) {
+						printf( '<span class="%s" style="text-align:center">%s</span>', esc_attr( $instance['image_alignment'] ), $image );
+					} else {
+						printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), $image );
+					}
 				}
 			}
 			
 			//* Display custom image
 			if ( $instance['show_image'] == 3 ) {
 				if ( $instance['feature_type'] == 'page' && $instance['enable_image_link'] == 1 ) {
-					printf( '<a href="%s" title="%s" class="%s"><img src="%s"/></a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $instance['custom_image'] );
+					printf( '<a href="%s" title="%s" class="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
 				} elseif ($instance['feature_type'] == 'custom' && $instance['enable_image_link'] == 1 ) {
-					printf( '<a href="%s" title="%s" class="%s"><img src="%s"/></a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), esc_attr( $instance['image_alignment'] ), $instance['custom_image'] );
+					printf( '<a href="%s" title="%s" class="%s"><img src="%s" alt="%s" class="entry-image" /></a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), esc_attr( $instance['image_alignment'] ), $instance['custom_image'], get_post_meta( $instance['attachment_id'], '_wp_attachment_image_alt', true) );
 				} else {
-					//* The <span> replaces the <a> so the image alignment feature still works
-					printf( '<span class="%s"><img src="%s"/></span>', esc_attr( $instance['image_alignment'] ), $instance['custom_image'] );
+					//* The <span> replaces the <a> so the image alignment feature still works (we manually apply the styling to image)
+					if ( $instance['image_alignment'] == 'aligncenter' ) {
+						printf( '<span class="%s"><img src="%s" style="display:block;margin:0 auto;" alt="%s" class="entry-image" /></span>', esc_attr( $instance['image_alignment'] ), $instance['custom_image'], get_post_meta( $instance['attachment_id'], '_wp_attachment_image_alt', true) );
+					} else {
+						printf( '<span class="%s"><img src="%s" alt="%s" class="entry-image" /></span>', esc_attr( $instance['image_alignment'] ), $instance['custom_image'], get_post_meta( $instance['attachment_id'], '_wp_attachment_image_alt', true) );
+					}
 				}
 			}
 			
@@ -194,11 +204,15 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				echo genesis_html5() ? '<div class="entry-content">' : '';
 
 				if ( empty( $instance['content_limit'] ) ) {
-					the_content( $instance['more_text'] );
+					$instance['more_text_new_line'] == 1 ? the_content( ' ' ) : the_content( $instance['more_text'] );
 				} else {
-					the_content_limit( (int) $instance['content_limit'], esc_html( $instance['more_text'] ) );
+					$instance['more_text_new_line'] == 1 ? the_content_limit( (int) $instance['content_limit'], ' ' ) : the_content_limit( (int) $instance['content_limit'], esc_html( $instance['more_text'] ) );
 				}
-				
+				if ( $instance['more_text_new_line'] == 1 ) {
+					echo '<div class="fpa-more-link">';
+					printf( '<a href="%s" class="more-link">%s</a>', get_permalink(), esc_attr( $instance['more_text'] ) );
+					echo '</div>';
+				}
 				echo genesis_html5() ? '</div>' : '';
 
 			}
@@ -209,10 +223,11 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				echo genesis_html5() ? '<div class="entry-content">' : '';
 				
 				echo '<p>' . get_the_excerpt() . ' ';
+				echo $instance['more_text_new_line'] == 1 ? '</p><div class="fpa-more-link">' : '';
 				if ( ! empty( $instance['more_text'] ) ) {
 					printf( '<a href="%s" class="more-link">%s</a>', get_permalink(), esc_attr( $instance['more_text'] ) );
 				}
-				echo '</p>';
+				echo $instance['more_text_new_line'] == 1 ? '</div>' : '</p>';
 				
 				echo genesis_html5() ? '</div>' : '';
 				
@@ -224,12 +239,13 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				echo genesis_html5() ? '<div class="entry-content">' : '';
 				
 				echo '<p>' . wp_kses_post( $instance['custom_content'] ) . ' ';
+				echo $instance['more_text_new_line'] == 1 ? '</p><div class="fpa-more-link">' : '';
 				if ( $instance['feature_type'] == 'page' && ! empty( $instance['more_text'] ) ) {
 					printf( '<a href="%s" class="more-link">%s</a>', get_permalink(), esc_attr( $instance['more_text'] ) );
 				} elseif ( $instance['feature_type'] == 'custom' && ! empty( $instance['more_text'] ) ) {
 					printf( '<a href="%s" class="more-link">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['more_text'] ) );
 				}
-				echo '</p>';
+				echo $instance['more_text_new_line'] == 1 ? '</div>' : '</p>';
 				
 				echo genesis_html5() ? '</div>' : '';
 				
@@ -352,17 +368,21 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 		
 		<!--Show Featured Image-->
 		<div class="fpa-image-size <?php if ( $instance['show_image'] != 2 ) echo ('hidden');  ?>" id="<?php echo $this->get_field_id('toggle_image_size'); ?>" >
-			<label for="<?php echo $this->get_field_id( 'image_size' ); ?>"><?php _e( 'Image Size', 'genesis-featured-page-advanced' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'image_size' ); ?>"><?php _e( 'Featured Image Size', 'genesis-featured-page-advanced' ); ?>:</label>
 			<select id="<?php echo $this->get_field_id( 'image_size' ); ?>" class="genesis-image-size-selector" name="<?php echo $this->get_field_name( 'image_size' ); ?>">
-				<option value="thumbnail" <?php selected( 'thumbnail', $instance[ 'image_size' ] ); ?>>Thumbnail (<?php echo absint( get_option( 'thumbnail_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'thumbnail_size_h' ) ); ?>)</option>
-				<option value="medium" <?php selected( 'medium', $instance[ 'image_size' ] ); ?>>Medium (<?php echo absint( get_option( 'medium_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'medium_size_h' ) ); ?>)</option>
-				<option value="large" <?php selected( 'large', $instance[ 'image_size' ] ); ?>>Large (<?php echo absint( get_option( 'large_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'large_size_h' ) ); ?>)</option>
-				<option value="full" <?php selected( 'full', $instance[ 'image_size' ] ); ?>>Full (<?php _e( 'Original Image Size', 'genesis-featured-page-advanced' ); ?>)</option>
-				<?php
-				$sizes = genesis_get_additional_image_sizes();
-				foreach ( (array) $sizes as $name => $size )
-					echo '<option value="' . esc_attr( $name ) . '" ' . selected( $name, $instance['image_size'], FALSE ) . '>' . esc_html( $name ) . ' (' . absint( $size['width'] ) . 'x' . absint( $size['height'] ) . ')</option>';
-				?>
+				<optgroup label="Built-In Sizes">
+					<option value="thumbnail" <?php selected( 'thumbnail', $instance[ 'image_size' ] ); ?>>Thumbnail (<?php echo absint( get_option( 'thumbnail_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'thumbnail_size_h' ) ); ?>)</option>
+					<option value="medium" <?php selected( 'medium', $instance[ 'image_size' ] ); ?>>Medium (<?php echo absint( get_option( 'medium_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'medium_size_h' ) ); ?>)</option>
+					<option value="large" <?php selected( 'large', $instance[ 'image_size' ] ); ?>>Large (<?php echo absint( get_option( 'large_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'large_size_h' ) ); ?>)</option>
+					<option value="full" <?php selected( 'full', $instance[ 'image_size' ] ); ?>>Full (<?php _e( 'Original Size', 'genesis-featured-page-advanced' ); ?>)</option>
+				</optgroup>
+				<optgroup label="Custom Sizes">
+					<?php
+					$sizes = genesis_get_additional_image_sizes();
+					foreach ( (array) $sizes as $name => $size )
+						echo '<option value="' . esc_attr( $name ) . '" ' . selected( $name, $instance['image_size'], FALSE ) . '>' . esc_html( $name ) . ' (' . absint( $size['width'] ) . 'x' . absint( $size['height'] ) . ')</option>';
+					?>
+				</optgroup>
 			</select>
 		</div>
 		
@@ -380,6 +400,24 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			</div>
 			<input type="hidden" id="<?php echo $this->get_field_id('attachment_id'); ?>" name="<?php echo $this->get_field_name('attachment_id'); ?>" value="<?php echo abs($instance['attachment_id']); ?>" />
 			<input type="hidden" id="<?php echo $this->get_field_id('custom_image'); ?>" name="<?php echo $this->get_field_name('custom_image'); ?>" value="<?php echo $instance['custom_image']; ?>" />
+			<p>
+				<label for="<?php echo $this->get_field_id( 'custom_image_size' ); ?>"><?php _e( 'Custom Image Size', 'genesis-featured-page-advanced' ); ?>:</label>
+				<select id="<?php echo $this->get_field_id( 'custom_image_size' ); ?>" class="genesis-image-size-selector" name="<?php echo $this->get_field_name( 'custom_image_size' ); ?>">
+					<optgroup label="Built-In Sizes">
+						<option value="thumbnail" <?php selected( 'thumbnail', $instance[ 'custom_image_size' ] ); ?>>Thumbnail (<?php echo absint( get_option( 'thumbnail_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'thumbnail_size_h' ) ); ?>)</option>
+						<option value="medium" <?php selected( 'medium', $instance[ 'custom_image_size' ] ); ?>>Medium (<?php echo absint( get_option( 'medium_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'medium_size_h' ) ); ?>)</option>
+						<option value="large" <?php selected( 'large', $instance[ 'custom_image_size' ] ); ?>>Large (<?php echo absint( get_option( 'large_size_w' ) ); ?>&#x000D7;<?php echo absint( get_option( 'large_size_h' ) ); ?>)</option>
+						<option value="full" <?php selected( 'full', $instance[ 'custom_image_size' ] ); ?>>Full (<?php _e( 'Original Size', 'genesis-featured-page-advanced' ); ?>)</option>
+					</optgroup>
+					<optgroup label="Custom Sizes">
+						<?php
+						$sizes = genesis_get_additional_image_sizes();
+						foreach ( (array) $sizes as $name => $size )
+							echo '<option value="' . esc_attr( $name ) . '" ' . selected( $name, $instance['custom_image_size'], FALSE ) . '>' . esc_html( $name ) . ' (' . absint( $size['width'] ) . 'x' . absint( $size['height'] ) . ')</option>';
+						?>
+					</optgroup>
+				</select>
+			</p>
 		</div>
 
 		<!--Image Alignment-->
@@ -389,6 +427,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				<option value="alignnone">- <?php _e( 'None', 'genesis-featured-page-advanced' ); ?> -</option>
 				<option value="alignleft" <?php selected( 'alignleft', $instance['image_alignment'] ); ?>><?php _e( 'Left', 'genesis-featured-page-advanced' ); ?></option>
 				<option value="alignright" <?php selected( 'alignright', $instance['image_alignment'] ); ?>><?php _e( 'Right', 'genesis-featured-page-advanced' ); ?></option>
+				<option value="aligncenter" <?php selected( 'aligncenter', $instance['image_alignment'] ); ?>><?php _e( 'Center', 'genesis-featured-page-advanced' ); ?></option>
 			</select>
 		</p>
 		
@@ -451,10 +490,15 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 		<hr class="div" />
 
 		<!--Read More Button/Text-->
-		<p class="fpa-read-more">
-			<label for="<?php echo $this->get_field_id( 'more_text' ); ?>"><?php _e( 'More Text', 'genesis-featured-page-advanced' ); ?>:</label>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'more_text' ); ?>" title="<?php _e( 'Leave empty for no More Text.', 'genesis-featured-page-advanced' ); ?>"><?php _e( 'More Text', 'genesis-featured-page-advanced' ); ?>:</label>
 			<input type="text" id="<?php echo $this->get_field_id( 'more_text' ); ?>" name="<?php echo $this->get_field_name( 'more_text' ); ?>" value="<?php echo esc_attr( $instance['more_text'] ); ?>" />
 		</p>
+		<p class="fpa-last">
+			<input id="<?php echo $this->get_field_id( 'more_text_new_line' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'more_text_new_line' ); ?>" value="1" <?php checked( $instance['more_text_new_line'] ); ?> />
+			<label for="<?php echo $this->get_field_id( 'more_text_new_line' ); ?>" title="<?php _e( 'Inserts More Text on a new line wrapped in a <div> tag with the class .fpa-more-text for styling purposes.', 'genesis-featured-page-advanced' ); ?>"><?php _e( 'Insert More Text on a New Line', 'genesis-featured-page-advanced' ); ?></label>	
+		</p>
+
 		<?php
 
 	}
@@ -477,11 +521,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			wp_register_style( 'fpa-admin-styles', plugin_dir_url( __FILE__ ) . '../css/fpa-admin-styles.css' );
 			wp_enqueue_style( 'fpa-admin-styles' );
 
-
 		} else {
 			return;
 		}
 	}
 	
-
 }

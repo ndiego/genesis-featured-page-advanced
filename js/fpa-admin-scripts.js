@@ -25,11 +25,9 @@ jQuery(document).ready(function($){
 
 		// Output Image preview and populate widget form
 		render : function( widget_id, widget_id_string, attachment ) {
-
 			$( "#" + widget_id_string + 'preview' ).attr( 'src', attachment.url );
 			$( "#" + widget_id_string + 'attachment_id' ).val( attachment.id );
-			$( "#" + widget_id_string + 'custom_image' ).val( attachment.url );
-			
+			$( "#" + widget_id_string + 'custom_image' ).val( attachment.url );			
 		},
 
 	};
