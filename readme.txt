@@ -2,8 +2,8 @@
 Contributors: ndiego, outermostdesign
 Tags: featured page, genesis, widget, featured content, Genesis Framework, genesiswp, page, widget-only, widgets
 Requires at least: 3.6
-Tested up to: 3.9.1
-Stable tag: 1.5.1
+Tested up to: 4.0.1
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,8 @@ That said, most Genesis users have probably stumbled upon the *Genesis - Feature
 However, sometimes you need additional functionality that is not offered in the core widget, such as adding a custom image or custom content. This is what *Genesis - Featured Page Advanced* does.  
 
 = Plugin Highlights =
-* NEW: Custom Content box now accepts HTML markup - per user request
+* **New:** Insert More Text on a new line
+* **New:** Adjust the size of custom images
 * Display widget title above or below image (Defaults above)
 * Display page title above or below image (Defaults below)
 * Adds option for widget to link to a custom link 
@@ -52,6 +53,15 @@ If you are looking for additional features, let me know in the plugin support fo
 1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage.
 
 == Changelog ==
+
+= 1.6.0 =
+* Added option to insert More Text on new line (wrapped in a div)
+* Added support for adjusting the size of custom images
+
+= 1.6.0 =
+* Added internal support for centering images - per user request
+* Added support for alt tags on custom images
+* Added automatic deactivation of plugin if user switch to non-Genesis theme
 
 = 1.5.1 =
 * Added ability to add HTML markup to custom content box - per user request
