@@ -3,7 +3,7 @@ Contributors: ndiego, outermostdesign
 Tags: featured page, genesis, widget, featured content, Genesis Framework, genesiswp, page, widget-only, widgets
 Requires at least: 3.6
 Tested up to: 4.0.1
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ If you are looking for additional features, let me know in the plugin support fo
 1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage.
 
 == Changelog ==
+
+= 1.7.1 =
+* Fixed image sizing bug when there is no image link
 
 = 1.7.0 =
 * Added option to insert More Text on new line (wrapped in a div)
