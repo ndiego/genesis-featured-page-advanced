@@ -54,7 +54,7 @@ If you are looking for additional features, let me know in the plugin support fo
 
 == Changelog ==
 
-= 1.6.0 =
+= 1.7.0 =
 * Added option to insert More Text on new line (wrapped in a div)
 * Added support for adjusting the size of custom images
 
