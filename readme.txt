@@ -2,8 +2,8 @@
 Contributors: ndiego, outermostdesign
 Tags: featured page, genesis, widget, featured content, Genesis Framework, genesiswp, page, widget-only, widgets
 Requires at least: 3.6
-Tested up to: 4.0.1
-Stable tag: 1.7.1
+Tested up to: 4.1.1
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,17 +18,18 @@ That said, most Genesis users have probably stumbled upon the *Genesis - Feature
 However, sometimes you need additional functionality that is not offered in the core widget, such as adding a custom image or custom content. This is what *Genesis - Featured Page Advanced* does.  
 
 = Plugin Highlights =
-* **New:** Insert More Text on a new line
-* **New:** Adjust the size of custom images
+* **New:** Set the target and rel attributes on all links
 * Display widget title above or below image (Defaults above)
 * Display page title above or below image (Defaults below)
 * Adds option for widget to link to a custom link 
-* Adds custom image upload field 
+* Adds custom image upload field
+* Adds option to adjust the size of custom images 
 * Adds custom content field
 * Adds option to display the page excerpt
 * Adds option to remove the page link from the page title
 * Adds option to add the page link to the widget title
 * Adds option to remove the page link from the featured or custom image
+* Adds option to insert the Learn More link on a new line
 * Fields show/hide based on user selection for cleaner UI 
 * Works alongside the original *Genesis - Featured Page* widget and other third party widgets
 * Uses the same CSS classes as the original Genesis widget, so any styling you are currently using will be passed to this widget
@@ -54,12 +55,16 @@ If you are looking for additional features, let me know in the plugin support fo
 
 == Changelog ==
 
+= 1.8.0 =
+* Added option to set the target and rel attributes on all links - per user request
+* Fixed issue were a custom linked widget would occasionally not display properly
+
 = 1.7.1 =
 * Fixed image sizing bug when there is no image link
 
 = 1.7.0 =
-* Added option to insert More Text on new line (wrapped in a div)
-* Added support for adjusting the size of custom images
+* Added option to insert More Text on new line (wrapped in a div) - per user request
+* Added support for adjusting the size of custom images - per user request
 
 = 1.6.0 =
 * Added internal support for centering images - per user request

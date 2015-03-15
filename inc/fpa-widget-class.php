@@ -31,6 +31,8 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			'feature_type'				=> 'page',	
 			'page_id'         			=> '',
 			'custom_link'				=> '',
+			'target_attr'				=> '_self',
+			'rel_attr'					=> '',
 			'show_image'				=> 1,
 			'image_size'      			=> 'thumbnail',
 			'image_alignment' 			=> 'alignnone',
@@ -90,174 +92,186 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 		if ( $instance['widget_title_below'] != 1 ) {
 			if ( $instance['feature_type'] == 'page' && ! empty( $instance['title'] ) && $instance['enable_title_link'] == 1 ) {
 				echo $before_title;
-				printf( '<a href="%s" title="%s">%s</a>', get_permalink( $instance['page_id'] ), get_the_title( $instance['page_id'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
+				printf( '<a href="%s" title="%s" target="%s" rel="%s">%s</a>', get_permalink( $instance['page_id'] ), get_the_title( $instance['page_id'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
 				echo $after_title;
 			} elseif ( $instance['feature_type'] == 'custom' && ! empty( $instance['title'] ) && $instance['enable_title_link'] == 1 ) {
 				echo $before_title;
-				printf( '<a href="%s" title="%s">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
+				printf( '<a href="%s" title="%s" target="%s" rel="%s">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
 				echo $after_title;
 			} elseif ( ! empty( $instance['title'] ) ) {
 				echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
 			}
 		}
 		
+		//* If we are featuring a page, then use a loop and the built-in genesis_markup function, otherwise manually add markup
+		if ( $instance['feature_type'] == 'page' ) {
+			//* if we are featuring a page, start the loop
+			$wp_query = new WP_Query( array( 'page_id' => $instance['page_id'] ) );
+
+			if ( have_posts() ) {
+				the_post();
+			
+				genesis_markup( array(
+					'html5'   => '<article %s>',
+					'xhtml'   => sprintf( '<div class="%s">', implode( ' ', get_post_class() ) ),
+					'context' => 'entry',
+				) );
+			}
+		} else {
+			//* Since we are not featuring a page, if HTML5, manually return HTML5 tag, otherwise use XHTML.
+			if ( genesis_html5() ) {
+				echo '<article class="custom-link page type-page status-publish entry" itemscope="itemscope" itemtype="http://schema.org/CreativeWork">';
+			} else {
+				echo '<div class="custom-link page type-page status-publish hentry entry">';
+			}
+		}
 		
-		$wp_query = new WP_Query( array( 'page_id' => $instance['page_id'] ) );
-
-		if ( have_posts() ) : while ( have_posts() ) : the_post();
-
-			genesis_markup( array(
-				'html5'   => '<article %s>',
-				'xhtml'   => sprintf( '<div class="%s">', implode( ' ', get_post_class() ) ),
-				'context' => 'entry',
-			) );
-
-			$image = genesis_get_image( array( 
-				'format' => 'html', 
-				'size' => $instance['image_size'],
-				'context' => 'featured-page-widget',
-				'attr'    => genesis_parse_attr( 'entry-image-widget' ),
-			) );
-			
-			//* Display page title above image (Hide if using Custom Link)
-			if ( $instance['feature_type'] == 'page' && $instance['page_title_above'] == 1 ) {
-				if ( ! empty( $instance['show_title'] ) && $instance['enable_page_title_link'] == 1 ) {
-					if ( genesis_html5() ) {
-						printf( '<header class="entry-header"><h2 class="entry-title"><a href="%s" title="%s">%s</a></h2></header>', get_permalink(), the_title_attribute( 'echo=0' ), get_the_title() );
-					} else {
-						printf( '<h2><a href="%s" title="%s">%s</a></h2>', get_permalink(), the_title_attribute( 'echo=0' ), get_the_title() );
-					}
-				} elseif ( ! empty( $instance['show_title'] ) ) {
-					if ( genesis_html5() ) {
-						printf( '<header class="entry-header"><h2 class="entry-title">%s</h2></header>', get_the_title() );
-					} else {
-						printf( '<h2>%s</h2>', get_the_title() );
-					}
-				}
-			}
-			
-			//* Display featured image (Hide if using Custom Link)
-			if ( $instance['feature_type'] == 'page' && $instance['show_image'] == 2 && $image ) {
-				if ( $instance['enable_image_link'] == 1 ) {
-					printf( '<a href="%s" title="%s" class="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), $image );
+		//* Helper function for getting the featured image of a page
+		$image = genesis_get_image( array( 
+			'format' => 'html', 
+			'size' => $instance['image_size'],
+			'context' => 'featured-page-widget',
+			'attr'    => genesis_parse_attr( 'entry-image-widget' ),
+		) );
+		
+		//* Display page title above image (Hide if using Custom Link)
+		if ( $instance['feature_type'] == 'page' && $instance['page_title_above'] == 1 ) {
+			if ( ! empty( $instance['show_title'] ) && $instance['enable_page_title_link'] == 1 ) {
+				if ( genesis_html5() ) {
+					printf( '<header class="entry-header"><h2 class="entry-title"><a href="%s" title="%s" target="%s" rel="%s">%s</a></h2></header>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), get_the_title() );
 				} else {
-					//* The <span> replaces the <a> so the image alignment feature still works (unfortunately need to use text-align here, which is not optimal)
-					if ( $instance['image_alignment'] == 'aligncenter' ) {
-						printf( '<span class="%s" style="text-align:center">%s</span>', esc_attr( $instance['image_alignment'] ), $image );
-					} else {
-						printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), $image );
-					}
+					printf( '<h2><a href="%s" title="%s" target="%s" rel="%s">%s</a></h2>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), get_the_title() );
 				}
-			}
-			
-			//* Display custom image
-			if ( $instance['show_image'] == 3 ) {
-				if ( $instance['feature_type'] == 'page' && $instance['enable_image_link'] == 1 ) {
-					printf( '<a href="%s" title="%s" class="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
-				} elseif ($instance['feature_type'] == 'custom' && $instance['enable_image_link'] == 1 ) {
-					printf( '<a href="%s" title="%s" class="%s">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
+			} elseif ( ! empty( $instance['show_title'] ) ) {
+				if ( genesis_html5() ) {
+					printf( '<header class="entry-header"><h2 class="entry-title">%s</h2></header>', get_the_title() );
 				} else {
-					//* The <span> replaces the <a> so the image alignment feature still works (we manually apply the styling to image)
-					if ( $instance['image_alignment'] == 'aligncenter' ) {
-						printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image', 'style' => 'display:block;margin:0 auto;' ) ) );
-					} else {
-						printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
-					}
+					printf( '<h2>%s</h2>', get_the_title() );
 				}
 			}
-			
-			//* Display widget title below image
-			if ( $instance['widget_title_below'] == 1 ) {
-				if ( $instance['feature_type'] == 'page' && ! empty( $instance['title'] ) && $instance['enable_title_link'] == 1 ) {
-					echo $before_title;
-					printf( '<a href="%s" title="%s">%s</a>', get_permalink( $instance['page_id'] ), get_the_title( $instance['page_id'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
-					echo $after_title;
-				} elseif ( $instance['feature_type'] == 'custom' && ! empty( $instance['title'] ) && $instance['enable_title_link'] == 1 ) {
-					echo $before_title;
-					printf( '<a href="%s" title="%s">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
-					echo $after_title;
-				} elseif ( ! empty( $instance['title'] ) ) {
-					echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
-				}
-			}
-			
-			//* Display page title below image (Hide if using Custom Link)
-			if ( $instance['feature_type'] == 'page' && $instance['page_title_above'] != 1 ) {
-				if ( ! empty( $instance['show_title'] ) && $instance['enable_page_title_link'] == 1 ) {
-					if ( genesis_html5() ) {
-						printf( '<header class="entry-header"><h2 class="entry-title"><a href="%s" title="%s">%s</a></h2></header>', get_permalink(), the_title_attribute( 'echo=0' ), get_the_title() );
-					} else {
-						printf( '<h2><a href="%s" title="%s">%s</a></h2>', get_permalink(), the_title_attribute( 'echo=0' ), get_the_title() );
-					}
-				} elseif ( ! empty( $instance['show_title'] ) ) {
-					if ( genesis_html5() ) {
-						printf( '<header class="entry-header"><h2 class="entry-title">%s</h2></header>', get_the_title() );
-					} else {
-						printf( '<h2>%s</h2>', get_the_title() );
-					}
-				}
-			}
-			
-			//* Display page content (Hide if using Custom Link)
-			if ( $instance['feature_type'] == 'page' && ! empty( $instance['show_content'] ) ) {
-				
-				echo genesis_html5() ? '<div class="entry-content">' : '';
-
-				if ( empty( $instance['content_limit'] ) ) {
-					$instance['more_text_new_line'] == 1 ? the_content( ' ' ) : the_content( $instance['more_text'] );
+		}
+		
+		//* Display featured image (Hide if using Custom Link)
+		if ( $instance['feature_type'] == 'page' && $instance['show_image'] == 2 && $image ) {
+			if ( $instance['enable_image_link'] == 1 ) {
+				printf( '<a href="%s" title="%s" class="%s" target="%s" rel="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), $image );
+			} else {
+				//* The <span> replaces the <a> so the image alignment feature still works (unfortunately need to use text-align here, which is not optimal)
+				if ( $instance['image_alignment'] == 'aligncenter' ) {
+					printf( '<span class="%s" style="text-align:center">%s</span>', esc_attr( $instance['image_alignment'] ), $image );
 				} else {
-					$instance['more_text_new_line'] == 1 ? the_content_limit( (int) $instance['content_limit'], ' ' ) : the_content_limit( (int) $instance['content_limit'], esc_html( $instance['more_text'] ) );
+					printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), $image );
 				}
-				if ( $instance['more_text_new_line'] == 1 ) {
-					echo '<div class="fpa-more-link">';
-					printf( '<a href="%s" class="more-link">%s</a>', get_permalink(), esc_attr( $instance['more_text'] ) );
-					echo '</div>';
-				}
-				echo genesis_html5() ? '</div>' : '';
-
 			}
+		}
+		
+		//* Display custom image
+		if ( $instance['show_image'] == 3 ) {
+			if ( $instance['feature_type'] == 'page' && $instance['enable_image_link'] == 1 ) {
+				printf( '<a href="%s" title="%s" class="%s" target="%s" rel="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
+			} elseif ($instance['feature_type'] == 'custom' && $instance['enable_image_link'] == 1 ) {
+				printf( '<a href="%s" title="%s" class="%s" target="%s" rel="%s">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), esc_attr( $instance['image_alignment'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
+			} else {
+				//* The <span> replaces the <a> so the image alignment feature still works (we manually apply the styling to image)
+				if ( $instance['image_alignment'] == 'aligncenter' ) {
+					printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image', 'style' => 'display:block;margin:0 auto;' ) ) );
+				} else {
+					printf( '<span class="%s">%s</span>', esc_attr( $instance['image_alignment'] ), wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, array( 'class' => 'entry-image' ) ) );
+				}
+			}
+		}
+		
+		//* Display widget title below image
+		if ( $instance['widget_title_below'] == 1 ) {
+			if ( $instance['feature_type'] == 'page' && ! empty( $instance['title'] ) && $instance['enable_title_link'] == 1 ) {
+				echo $before_title;
+				printf( '<a href="%s" title="%s" target="%s" rel="%s">%s</a>', get_permalink( $instance['page_id'] ), get_the_title( $instance['page_id'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
+				echo $after_title;
+			} elseif ( $instance['feature_type'] == 'custom' && ! empty( $instance['title'] ) && $instance['enable_title_link'] == 1 ) {
+				echo $before_title;
+				printf( '<a href="%s" title="%s" target="%s" rel="%s">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['title'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) );
+				echo $after_title;
+			} elseif ( ! empty( $instance['title'] ) ) {
+				echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
+			}
+		}
+		
+		//* Display page title below image (Hide if using Custom Link)
+		if ( $instance['feature_type'] == 'page' && $instance['page_title_above'] != 1 ) {
+			if ( ! empty( $instance['show_title'] ) && $instance['enable_page_title_link'] == 1 ) {
+				if ( genesis_html5() ) {
+					printf( '<header class="entry-header"><h2 class="entry-title"><a href="%s" title="%s" target="%s" rel="%s">%s</a></h2></header>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), get_the_title() );
+				} else {
+					printf( '<h2><a href="%s" title="%s" target="%s" rel="%s">%s</a></h2>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), get_the_title() );
+				}
+			} elseif ( ! empty( $instance['show_title'] ) ) {
+				if ( genesis_html5() ) {
+					printf( '<header class="entry-header"><h2 class="entry-title">%s</h2></header>', get_the_title() );
+				} else {
+					printf( '<h2>%s</h2>', get_the_title() );
+				}
+			}
+		}
+		
+		//* Display page content (Hide if using Custom Link)
+		if ( $instance['feature_type'] == 'page' && ! empty( $instance['show_content'] ) ) {
 			
-			//* Display page excerpt (Hide if using Custom Link)
-			if ( $instance['feature_type'] == 'page' && ! empty( $instance['show_excerpt'] ) ) {
-				
-				echo genesis_html5() ? '<div class="entry-content">' : '';
-				
-				echo '<p>' . get_the_excerpt() . ' ';
-				echo $instance['more_text_new_line'] == 1 ? '</p><div class="fpa-more-link">' : '';
-				if ( ! empty( $instance['more_text'] ) ) {
-					printf( '<a href="%s" class="more-link">%s</a>', get_permalink(), esc_attr( $instance['more_text'] ) );
-				}
-				echo $instance['more_text_new_line'] == 1 ? '</div>' : '</p>';
-				
-				echo genesis_html5() ? '</div>' : '';
-				
+			echo genesis_html5() ? '<div class="entry-content">' : '';
+
+			if ( empty( $instance['content_limit'] ) ) {
+				$instance['more_text_new_line'] == 1 ? the_content( ' ' ) : the_content( $instance['more_text'] );
+			} else {
+				$instance['more_text_new_line'] == 1 ? the_content_limit( (int) $instance['content_limit'], ' ' ) : the_content_limit( (int) $instance['content_limit'], esc_html( $instance['more_text'] ) );
 			}
+			if ( $instance['more_text_new_line'] == 1 ) {
+				echo '<div class="fpa-more-link">';
+				printf( '<a href="%s" class="more-link" target="%s" rel="%s">%s</a>', get_permalink(), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), esc_attr( $instance['more_text'] ) );
+				echo '</div>';
+			}
+			echo genesis_html5() ? '</div>' : '';
+
+		}
+		
+		//* Display page excerpt (Hide if using Custom Link)
+		if ( $instance['feature_type'] == 'page' && ! empty( $instance['show_excerpt'] ) ) {
 			
-			//* Display custom content
-			if ( $instance['show_custom_content'] == 1 && ! empty( $instance['custom_content'] ) ) {
-				
-				echo genesis_html5() ? '<div class="entry-content">' : '';
-				
-				echo '<p>' . wp_kses_post( $instance['custom_content'] ) . ' ';
-				echo $instance['more_text_new_line'] == 1 ? '</p><div class="fpa-more-link">' : '';
-				if ( $instance['feature_type'] == 'page' && ! empty( $instance['more_text'] ) ) {
-					printf( '<a href="%s" class="more-link">%s</a>', get_permalink(), esc_attr( $instance['more_text'] ) );
-				} elseif ( $instance['feature_type'] == 'custom' && ! empty( $instance['more_text'] ) ) {
-					printf( '<a href="%s" class="more-link">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['more_text'] ) );
-				}
-				echo $instance['more_text_new_line'] == 1 ? '</div>' : '</p>';
-				
-				echo genesis_html5() ? '</div>' : '';
-				
+			echo genesis_html5() ? '<div class="entry-content">' : '';
+			
+			echo '<p>' . get_the_excerpt() . ' ';
+			echo $instance['more_text_new_line'] == 1 ? '</p><div class="fpa-more-link">' : '';
+			if ( ! empty( $instance['more_text'] ) ) {
+				printf( '<a href="%s" class="more-link" target="%s" rel="%s">%s</a>', get_permalink(), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), esc_attr( $instance['more_text'] ) );
 			}
+			echo $instance['more_text_new_line'] == 1 ? '</div>' : '</p>';
+			
+			echo genesis_html5() ? '</div>' : '';
+			
+		}
+		
+		//* Display custom content
+		if ( $instance['show_custom_content'] == 1 && ! empty( $instance['custom_content'] ) ) {
+			
+			echo genesis_html5() ? '<div class="entry-content">' : '';
+			
+			echo '<p>' . wp_kses_post( $instance['custom_content'] ) . ' ';
+			echo $instance['more_text_new_line'] == 1 ? '</p><div class="fpa-more-link">' : '';
+			if ( $instance['feature_type'] == 'page' && ! empty( $instance['more_text'] ) ) {
+				printf( '<a href="%s" class="more-link" target="%s" rel="%s">%s</a>', get_permalink(), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), esc_attr( $instance['more_text'] ) );
+			} elseif ( $instance['feature_type'] == 'custom' && ! empty( $instance['more_text'] ) ) {
+				printf( '<a href="%s" class="more-link" target="%s" rel="%s">%s</a>', esc_url( $instance['custom_link'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), esc_attr( $instance['more_text'] ) );
+			}
+			echo $instance['more_text_new_line'] == 1 ? '</div>' : '</p>';
+			
+			echo genesis_html5() ? '</div>' : '';
+			
+		}
 
-			genesis_markup( array(
-				'html5' => '</article>',
-				'xhtml' => '</div>',
-			) );
+		genesis_markup( array(
+			'html5' => '</article>',
+			'xhtml' => '</div>',
+		) );
 
-			endwhile;
-		endif;
+
 
 		//* Restore original query
 		wp_reset_query();
@@ -282,6 +296,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 
 		$new_instance['title']     			= strip_tags( $new_instance['title'] );
 		$new_instance['custom_link'] 		= strip_tags( $new_instance['custom_link'] );
+		$new_instance['rel_attr'] 			= str_replace( ',', '', strip_tags( $new_instance['rel_attr'] ) );
 		$new_instance['custom_image']       = strip_tags( $new_instance['custom_image'] );
 		$new_instance['custom_content']     = $new_instance['custom_content'];
 		$new_instance['more_text'] 			= strip_tags( $new_instance['more_text'] );
@@ -345,6 +360,28 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			</p>
 			<p>
 				<em><?php _e( 'This will direct all widget links (title, image, more text) to the custom link. Include the full path, i.e. ', 'genesis-featured-page-advanced' ); ?><code>http://</code></em>
+			</p>
+		</div>
+		
+		<hr class="div" />
+		
+		<!--Additional Link Options Selection-->
+		<div class="fpa-link-attributes">
+			<p>
+				<label for="<?php echo $this->get_field_id( 'target_attr' ); ?>" title="<?php _e( 'Select the link target.', 'genesis-featured-page-advanced' ); ?>"><?php _e( 'Link', 'genesis-featured-page-advanced' ); ?> <code>target</code> <?php _e( 'Attribute', 'genesis-featured-page-advanced' ); ?>:</label>
+				<select id="<?php echo $this->get_field_id( 'target_attr' ); ?>" name="<?php echo $this->get_field_name( 'target_attr' ); ?>">
+					<option value="_self" <?php selected( '_self', $instance[ 'target_attr' ] ); ?>>Self</option>
+					<option value="_blank" <?php selected( '_blank', $instance[ 'target_attr' ] ); ?>>Blank</option>
+					<option value="_parent" <?php selected( '_parent', $instance[ 'target_attr' ] ); ?>>Parent</option>
+					<option value="_top" <?php selected( '_top', $instance[ 'target_attr' ] ); ?>>Top</option>
+				</select>
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'rel_attr' ); ?>" title="<?php _e( 'Enter values for the link rel attribute.', 'genesis-featured-page-advanced' ); ?>"><?php _e( 'Link', 'genesis-featured-page-advanced' ); ?> <code>rel</code> <?php _e( 'Values', 'genesis-featured-page-advanced' ); ?>:</label>
+				<input type="text" id="<?php echo $this->get_field_id( 'rel_attr' ); ?>" name="<?php echo $this->get_field_name( 'rel_attr' ); ?>" placeholder="ex: nofollow author" value="<?php echo esc_attr( $instance['rel_attr'] ); ?>"/>
+			</p>
+			<p>
+				<em><?php _e( 'Enter a space separated list of link type values.', 'genesis-featured-page-advanced' ); ?></em>
 			</p>
 		</div>
 
