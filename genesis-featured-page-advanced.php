@@ -3,8 +3,8 @@
 Plugin Name: Genesis Featured Page Advanced
 Plugin URI: http://www.outermostdesign.com/
 Description: Adds an enhanced version of the Genesis - Featured Page widget. The Genesis Framework 2.0+ is required.
-Version: 1.8.0
-Author: Outermost Design
+Version: 1.9.0
+Author: Nick Diego
 Author URI: http://www.outermostdesign.com/
 Text Domain: genesis-featured-page-advanced
 License: GPLv2
@@ -62,10 +62,19 @@ function fpa_deactivate_check() {
 }
 
 
+add_action('plugins_loaded', 'fpa_load_textdomain');
+/**
+ * Load the plugin translation files
+ */
+function fpa_load_textdomain() {
+	load_plugin_textdomain( 'genesis-featured-page-advanced', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
+}
+
+
 /**
  * Include out Widget Class file 
  */
-include_once dirname( __FILE__ ) . '/inc/fpa-widget-class.php';
+include_once dirname( __FILE__ ) . '/inc/widget-class.php';
 
 
 add_action( 'widgets_init', 'fpa_register_widget' );
@@ -75,5 +84,3 @@ add_action( 'widgets_init', 'fpa_register_widget' );
 function fpa_register_widget() {
      register_widget( 'Genesis_Featured_Page_Advanced' );
 }
-
-

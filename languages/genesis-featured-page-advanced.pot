@@ -1,0 +1,232 @@
+# Copyright (C) 2016 Genesis Featured Page Advanced
+# This file is distributed under the same license as the Genesis Featured Page Advanced package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Genesis Featured Page Advanced 1.9.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/genesis-featured-page-advanced\n"
+"POT-Creation-Date: 2016-01-21 02:12:49+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: genesis-featured-page-advanced.php:43
+msgid "Sorry, you can't activate %1$sGenesis - Featured Page Advanced%2$s unless you have installed the %3$sGenesis Framework%4$s. Go back to the %5$sPlugins Page%4$s."
+msgstr ""
+
+#: genesis-featured-page-advanced.php:48
+msgid "Sorry, you can't activate %1$sGenesis - Featured Page Advanced%2$s unless you have installed the %3$sGenesis %4$s%5$s. Go back to the %6$sPlugins Page%5$s."
+msgstr ""
+
+#: inc/widget-class.php:58
+msgid "Displays featured page with images and content."
+msgstr ""
+
+#: inc/widget-class.php:67
+msgid "Genesis - Featured Page Advanced"
+msgstr ""
+
+#: inc/widget-class.php:381
+msgid "Title"
+msgstr ""
+
+#: inc/widget-class.php:386
+msgid "Enable Title Link"
+msgstr ""
+
+#: inc/widget-class.php:390
+msgid "Position Title Below Image"
+msgstr ""
+
+#: inc/widget-class.php:390
+msgid "(Defaults to Above)"
+msgstr ""
+
+#: inc/widget-class.php:399
+msgid "Feature a Page"
+msgstr ""
+
+#: inc/widget-class.php:403
+msgid "Feature a Custom Page Link"
+msgstr ""
+
+#: inc/widget-class.php:408
+msgid "Select Page"
+msgstr ""
+
+#: inc/widget-class.php:414
+msgid "Custom Page Link"
+msgstr ""
+
+#: inc/widget-class.php:418
+msgid "This will direct all widget links (title, image, more text) to the custom link. Include the full path, i.e."
+msgstr ""
+
+#: inc/widget-class.php:427
+msgid "Select the link target."
+msgstr ""
+
+#: inc/widget-class.php:427 inc/widget-class.php:436
+msgid "Link"
+msgstr ""
+
+#: inc/widget-class.php:427
+msgid "Attribute"
+msgstr ""
+
+#: inc/widget-class.php:436
+msgid "Enter values for the link rel attribute."
+msgstr ""
+
+#: inc/widget-class.php:436
+msgid "Values"
+msgstr ""
+
+#: inc/widget-class.php:440
+msgid "Enter a space separated list of link type values."
+msgstr ""
+
+#: inc/widget-class.php:450
+msgid "No Image"
+msgstr ""
+
+#: inc/widget-class.php:454
+msgid "Show Featured Image"
+msgstr ""
+
+#: inc/widget-class.php:458
+msgid "Show Custom Image"
+msgstr ""
+
+#: inc/widget-class.php:464
+msgid "Featured Image Size"
+msgstr ""
+
+#: inc/widget-class.php:470 inc/widget-class.php:503
+msgid "Original Size"
+msgstr ""
+
+#: inc/widget-class.php:484
+msgid "Select an Image"
+msgstr ""
+
+#: inc/widget-class.php:497
+msgid "Custom Image Size"
+msgstr ""
+
+#: inc/widget-class.php:518
+msgid "Image Alignment"
+msgstr ""
+
+#: inc/widget-class.php:520
+msgid "None"
+msgstr ""
+
+#: inc/widget-class.php:521
+msgid "Left"
+msgstr ""
+
+#: inc/widget-class.php:522
+msgid "Right"
+msgstr ""
+
+#: inc/widget-class.php:523
+msgid "Center"
+msgstr ""
+
+#: inc/widget-class.php:529
+msgid "Enable Image Link"
+msgstr ""
+
+#: inc/widget-class.php:538
+msgid "No Page Title"
+msgstr ""
+
+#: inc/widget-class.php:542
+msgid "Show Page Title"
+msgstr ""
+
+#: inc/widget-class.php:546
+msgid "Show Custom Page Title"
+msgstr ""
+
+#: inc/widget-class.php:552
+msgid "Custom Page Title"
+msgstr ""
+
+#: inc/widget-class.php:558
+msgid "Enable Page Title Link"
+msgstr ""
+
+#: inc/widget-class.php:562
+msgid "Position Page Title Above Image"
+msgstr ""
+
+#: inc/widget-class.php:562
+msgid "(Defaults to Below)"
+msgstr ""
+
+#: inc/widget-class.php:573
+msgid "Show Page Content"
+msgstr ""
+
+#: inc/widget-class.php:576
+msgid "Content Character Limit"
+msgstr ""
+
+#: inc/widget-class.php:583
+msgid "Show Page Excerpt"
+msgstr ""
+
+#: inc/widget-class.php:591
+msgid "Show Custom Content"
+msgstr ""
+
+#: inc/widget-class.php:594
+msgid "Custom Content"
+msgstr ""
+
+#: inc/widget-class.php:602
+msgid "Leave empty for no More Text."
+msgstr ""
+
+#: inc/widget-class.php:602
+msgid "More Text"
+msgstr ""
+
+#: inc/widget-class.php:607
+msgid "Inserts More Text on a new line wrapped in a <div> tag with the class .fpa-more-text for styling purposes."
+msgstr ""
+
+#: inc/widget-class.php:607
+msgid "Insert More Text on a New Line"
+msgstr ""
+
+#: inc/widget-class.php:629
+msgid "Choose or Upload an Image"
+msgstr ""
+
+#: inc/widget-class.php:630
+msgid "Use Selected Image"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Genesis Featured Page Advanced"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.outermostdesign.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Adds an enhanced version of the Genesis - Featured Page widget. The Genesis Framework 2.0+ is required."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Nick Diego"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.outermostdesign.com/"
+msgstr ""

@@ -7,10 +7,10 @@ jQuery(document).ready(function($){
 		uploader : function( widget_id, widget_id_string ) {
 
 			var frame = wp.media({
-				title : 'Choose or Upload an Image',
+				title : fpa_localize_admin_scripts.media_title,
 				multiple : false,
 				library : { type : 'image' }, //only can upload images
-				button : { text : 'Use Selected Image' }
+				button : { text : fpa_localize_admin_scripts.media_button }
 			});
 
 			// Handle results from media manager
@@ -32,8 +32,6 @@ jQuery(document).ready(function($){
 
 	};
 	
-	
-
 	/*
 	Show and hide different image options based on selection
 	
@@ -65,11 +63,33 @@ jQuery(document).ready(function($){
   	 	  	$( '#' + widget_id_prefix + '-toggle_image_size' ).hide();
   	 		$( '#' + widget_id_prefix + '-toggle_image_alignment' ).hide();
   	 		$( '#' + widget_id_prefix + '-toggle_image_link' ).hide();
-  	 	}	
-  	 	
-  	 });
+  	 	}		
+  	});
   	 
-  	//Show and hide feature selections
+	// Show and hide different page title options based on selection
+	$(document).on( 'click', '.fpa-show-title input', function() {
+
+		var input_val = $(this).val();	
+		var widget_id = $(this).attr( 'id' );
+		//returns the widget_prefix from the id
+		var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
+	
+		if ( input_val == 2 ) {
+			$( '#' + widget_id_prefix + '-toggle_custom_title' ).show();
+			$( '#' + widget_id_prefix + '-toggle_title_link' ).show();
+			$( '#' + widget_id_prefix + '-toggle_title_above' ).show();
+		} else if ( input_val == 1 ) {
+			$( '#' + widget_id_prefix + '-toggle_custom_title' ).hide();
+			$( '#' + widget_id_prefix + '-toggle_title_link' ).show();
+			$( '#' + widget_id_prefix + '-toggle_title_above' ).show();
+		} else if ( input_val == 0 ) {
+			$( '#' + widget_id_prefix + '-toggle_custom_title' ).hide();
+			$( '#' + widget_id_prefix + '-toggle_title_link' ).hide();
+			$( '#' + widget_id_prefix + '-toggle_title_above' ).hide();
+		}	
+	});
+  	 
+	//Show and hide feature selections
 	$(document).on( 'click', '.fpa-feature-type input', function() {
 
   	 	var input_val = $(this).val();	
@@ -80,17 +100,20 @@ jQuery(document).ready(function($){
   	 	if ( input_val == 'page' ) {
   	 		$( '#' + widget_id_prefix + '-feature_type_page' ).show();
   	 		$( '#' + widget_id_prefix + '-feature_type_page_settings' ).show();
-  	 		$( '#' + widget_id_prefix + '-show_featured_image' ).attr( 'disabled', false);
-  	 		$( '#' + widget_id_prefix + '-featured_image_color' ).removeClass( 'fpa-disabled' );
+  	 		$( '#' + widget_id_prefix + '-show_featured_image' ).attr( 'disabled', false );
+  	 		$( '#' + widget_id_prefix + '-show_page_title' ).attr( 'disabled', false );
+  	 		$( '#' + widget_id_prefix + '-featured_image_disable' ).removeClass( 'fpa-disabled' );
+  	 		$( '#' + widget_id_prefix + '-page_title_disable' ).removeClass( 'fpa-disabled' );
   	 		$( '#' + widget_id_prefix + '-feature_type_custom' ).hide();
   	 	} else if ( input_val == 'custom' ) {
   	 		$( '#' + widget_id_prefix + '-feature_type_page' ).hide();
   	 		$( '#' + widget_id_prefix + '-feature_type_page_settings' ).hide();
-  	 		$( '#' + widget_id_prefix + '-show_featured_image' ).attr( 'disabled', true);
-  	 		$( '#' + widget_id_prefix + '-featured_image_color' ).addClass( 'fpa-disabled' );
+  	 		$( '#' + widget_id_prefix + '-show_featured_image' ).attr( 'disabled', true );
+			$( '#' + widget_id_prefix + '-show_page_title' ).attr( 'disabled', true );
+  	 		$( '#' + widget_id_prefix + '-featured_image_disable' ).addClass( 'fpa-disabled' );
+  	 		$( '#' + widget_id_prefix + '-page_title_disable' ).addClass( 'fpa-disabled' );
   	 		$( '#' + widget_id_prefix + '-feature_type_custom' ).show();
   	 	}
-  	 	
   	 });
   	
   	 //Show and hide Page Link input on Show Title selection
@@ -100,7 +123,6 @@ jQuery(document).ready(function($){
   	 	var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
   	 	
   	 	$( '#' + widget_id_prefix + '-toggle_page_settings' ).toggle( this.checked );
-  	 
   	 });
   	
   	//Show and hide Custom Content on Show Custom Content selection
@@ -110,7 +132,6 @@ jQuery(document).ready(function($){
   	 	var widget_id_prefix = widget_id.split( '-' ).slice( 0, 5 ).join( '-' );  
   	 	
   	 	$( '#' + widget_id_prefix + '-toggle_custom_content' ).toggle( this.checked );
-  	 	
   	 });
   	 
   	 //Show and hide Character Limit input on Show Page Content selection
