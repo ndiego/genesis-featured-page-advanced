@@ -1,9 +1,14 @@
 === Genesis Featured Page Advanced===
 Contributors: ndiego, outermostdesign
+Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WLSEBKWPL9UMN
 Tags: featured page, genesis, widget, featured content, Genesis Framework, genesiswp, page, widget-only, widgets
 Requires at least: 3.6
-Tested up to: 4.1.1
-Stable tag: 1.8.0
+<<<<<<< HEAD
+Tested up to: 4.4.2 
+=======
+Tested up to: 4.4.1 
+>>>>>>> origin/master
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,25 +16,26 @@ An advanced version of the Genesis - Featured Page widget. Allows you to add a c
 
 == Description ==
 
-**Please Note:** This plugin is only for Genesis Framework users. Genesis is a premium product by [StudioPress](http://www.studiopress.com).
+**Please Note:** This plugin is only for Genesis Framework users. Genesis is a premium product by [StudioPress](http://www.studiopress.com). We have no affiliation with the company. We just love building useful tools for Genesis users.
 
 That said, most Genesis users have probably stumbled upon the *Genesis - Featured Page* widget as a great way to add page teasers/links to your homepage, footer, sidebars, or really any widget area.
 
 However, sometimes you need additional functionality that is not offered in the core widget, such as adding a custom image or custom content. This is what *Genesis - Featured Page Advanced* does.  
 
 = Plugin Highlights =
-* **New:** Set the target and rel attributes on all links
+* **New:** You can now add a Custom Page Title
 * Display widget title above or below image (Defaults above)
 * Display page title above or below image (Defaults below)
 * Adds option for widget to link to a custom link 
 * Adds custom image upload field
 * Adds option to adjust the size of custom images 
-* Adds custom content field
+* Adds custom content field, which accepts shortcodes
 * Adds option to display the page excerpt
 * Adds option to remove the page link from the page title
 * Adds option to add the page link to the widget title
 * Adds option to remove the page link from the featured or custom image
 * Adds option to insert the Learn More link on a new line
+* Set the target and rel attributes on all links
 * Fields show/hide based on user selection for cleaner UI 
 * Works alongside the original *Genesis - Featured Page* widget and other third party widgets
 * Uses the same CSS classes as the original Genesis widget, so any styling you are currently using will be passed to this widget
@@ -39,6 +45,12 @@ If you are looking for additional features, let me know in the plugin support fo
 
 **Disclaimer:** This plugin is essentially a forked version of the original *Genesis - Featured Page* widget. Props go to StudioPress for developing the widget, I just modified/enhanced it. 
 
+= Support This Plugin = 
+
+There are a few ways you can help support the development of this plugin:
+
+1. If you spot an error or bug, please let us know in the support forums. The issue will be diagnosed an a new release push out as soon as possible.
+1. [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WLSEBKWPL9UMN). Time is money, and contributions from users like you really help us dedicate more hours to the continual development and support of this plugin.
 
 == Installation ==
 
@@ -54,6 +66,17 @@ If you are looking for additional features, let me know in the plugin support fo
 1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage.
 
 == Changelog ==
+
+= 1.9.0 =
+* Added the option for a Custom Page Title
+* Added new plugin banner and logo
+* Improved translation capabilities - Special thanks to Hans for guidance
+
+= 1.8.2 =
+* Fixed more-link bug when using page content
+
+= 1.8.1 =
+* Added support for shortcodes in the custom content option
 
 = 1.8.0 =
 * Added option to set the target and rel attributes on all links - per user request
