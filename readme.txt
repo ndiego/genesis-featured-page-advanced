@@ -3,8 +3,8 @@ Contributors: ndiego, outermostdesign
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WLSEBKWPL9UMN
 Tags: featured page, genesis, widget, featured content, Genesis Framework, genesiswp, page, widget-only, widgets
 Requires at least: 3.6
-Tested up to: 4.4.2 
-Stable tag: 1.9.0
+Tested up to: 4.5 
+Stable tag: 1.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,10 @@ There are a few ways you can help support the development of this plugin:
 1. Admin and frontend view of the Genesis - Featured Page Advanced widget. Highlights normal usage and advanced usage.
 
 == Changelog ==
+
+= 1.9.1 =
+* Improved a11y support
+* Added filter to page title headings
 
 = 1.9.0 =
 * Added the option for a Custom Page Title

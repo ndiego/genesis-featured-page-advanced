@@ -210,8 +210,8 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 		// Display custom image
 		if ( $instance['show_image'] == 3 ) {
 			
-			$args  = $instance['image_alignment'] == 'aligncenter' ? array( 'class' => 'entry-image', 'style' => 'display:block;margin:0 auto;' ) : array( 'class' => 'entry-image' );
-			$image = wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, $args );
+			$atts  = $instance['image_alignment'] == 'aligncenter' ? array( 'class' => 'entry-image', 'style' => 'display:block;margin:0 auto;' ) : array( 'class' => 'entry-image' );
+			$image = wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, $atts );
 		
 			if ( $instance['feature_type'] == 'page' && $instance['enable_image_link'] == 1 ) {
 				printf( '<a href="%s" title="%s" class="%s" target="%s" rel="%s" %s>%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), esc_attr( $instance['image_alignment'] ), esc_attr( $instance['target_attr'] ), esc_attr( $instance['rel_attr'] ), $role, $image );
@@ -292,12 +292,12 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			'html5' => '</article>',
 			'xhtml' => '</div>',
 		) );
-
-
+		
 		// Restore original query
 		wp_reset_query();
-
+		
 		echo $args['after_widget'];
+		
 	}
 
 

@@ -3,7 +3,7 @@
 Plugin Name: Genesis Featured Page Advanced
 Plugin URI: http://www.outermostdesign.com/
 Description: Adds an enhanced version of the Genesis - Featured Page widget. The Genesis Framework 2.0+ is required.
-Version: 1.9.0
+Version: 1.9.1
 Author: Nick Diego
 Author URI: http://www.outermostdesign.com/
 Text Domain: genesis-featured-page-advanced
@@ -50,7 +50,7 @@ function fpa_activation_check() {
 }
 
 
-add_action('admin_init', 'fpa_deactivate_check');
+add_action( 'admin_init', 'fpa_deactivate_check' );
 /**
  * This function runs on admin_init and checks to make sure Genesis is active, if not, it 
  * deactivates the plugin. This is useful for when users switch to a non-Genesis themes.
@@ -72,7 +72,7 @@ function fpa_load_textdomain() {
 
 
 /**
- * Include out Widget Class file 
+ * Include the Widget Class file 
  */
 include_once dirname( __FILE__ ) . '/inc/widget-class.php';
 
