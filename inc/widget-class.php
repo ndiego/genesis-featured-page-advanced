@@ -144,7 +144,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			$heading = apply_filters( 'fpa_page_title_heading', $heading );
 			
 			$before_page_title  = genesis_html5() ? sprintf( '<header class="entry-header"><%s class="entry-title">', $heading ) : sprintf( '<%s>', $heading );
-			$after_page_title   = genesis_html5() ? sprintf( '</header></%s>', $heading ) : sprintf( '</%s>', $heading );
+			$after_page_title   = genesis_html5() ? sprintf( '</%s></header>', $heading ) : sprintf( '</%s>', $heading );
 		
 			$title        = get_the_title() ? get_the_title() : __( '(No Title Set)', 'featured-page-advanced' );
 			$title        = apply_filters( 'genesis_featured_page_title', $title, $instance, $args );
