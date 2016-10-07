@@ -580,8 +580,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 	 */
 	function fpa_admin_scripts_enqueue( $hook ) {
 
-		// Do no enqueue scripts & styles if we are not on either the Widget or Customizer pages	
-		if ( 'widgets.php' == $hook || 'customize.php' == $hook ) {
+		// Do no enqueue scripts & styles if we are not on either the Widget or Customizer pages
+		// Updated in version 1.9.3 to address conflict with Page Builder by SiteOrigin plugin
+		if ( 'widgets.php' == $hook || 'customize.php' == $hook || defined( 'SITEORIGIN_PANELS_VERSION' ) ) {
 	
 			// Enqueues all media scripts so we can use the media uploader
 			wp_enqueue_media(); 
