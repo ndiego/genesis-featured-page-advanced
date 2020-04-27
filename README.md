@@ -1,0 +1,3 @@
+# Genesis Featured Page Advanced
+
+Full readme coming soon...

@@ -1,16 +1,16 @@
 <?php
 /*
 Plugin Name: Genesis Featured Page Advanced
-Plugin URI: http://www.outermostdesign.com/
+Plugin URI: http://www.outermost.co/
 Description: Adds an enhanced version of the Genesis - Featured Page widget. The Genesis Framework 2.0+ is required.
-Version: 1.9.3
+Version: 1.9.7
 Author: Nick Diego
-Author URI: http://www.outermostdesign.com/
+Author URI: http://www.outermost.co/
 Text Domain: genesis-featured-page-advanced
 License: GPLv2
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
+    it under the terms of the GNU General Public License, version 2, as
     published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
@@ -50,18 +50,6 @@ function fpa_activation_check() {
 }
 
 
-add_action( 'admin_init', 'fpa_deactivate_check' );
-/**
- * This function runs on admin_init and checks to make sure Genesis is active, if not, it 
- * deactivates the plugin. This is useful for when users switch to a non-Genesis themes.
- */
-function fpa_deactivate_check() {
-    if ( ! function_exists('genesis_pre') ) {
-		deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
-    }
-}
-
-
 add_action('plugins_loaded', 'fpa_load_textdomain');
 /**
  * Load the plugin translation files
@@ -72,15 +60,15 @@ function fpa_load_textdomain() {
 
 
 /**
- * Include the Widget Class file 
+ * Include the Widget Class file
  */
 include_once dirname( __FILE__ ) . '/inc/widget-class.php';
 
 
 add_action( 'widgets_init', 'fpa_register_widget' );
 /**
- * Registers our Genesis Featured Page Advanced widget 
+ * Registers our Genesis Featured Page Advanced widget
  */
 function fpa_register_widget() {
-     register_widget( 'Genesis_Featured_Page_Advanced' );
+	register_widget( 'Genesis_Featured_Page_Advanced' );
 }
