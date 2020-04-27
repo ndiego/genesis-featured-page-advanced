@@ -187,11 +187,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 		} else {
 
 			// If we are displaying an image, set the has-post-thumnail class. Needed to maintain vistual consistency on some Studiopress themes
-			$has_image = ( $instance['show_image'] == 2 || $instance['show_image'] == 3 ) ? 'has-post-thumbnail' : '';
-			
+			$has_image 	         = ( $instance['show_image'] == 2 || $instance['show_image'] == 3 ) ? 'has-post-thumbnail' : '';
 			$article_markup_open = '<article class="custom-link page type-page status-publish ' . $has_image . ' entry" itemscope="itemscope" itemtype="http://schema.org/CreativeWork">';
-			
-			$link_url = esc_url( $instance['custom_link'] );	
+			$link_url 	         = esc_url( $instance['custom_link'] );	
 		}
 		
 		// Opening tag of the article		
@@ -263,25 +261,41 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 		if ( $instance['page_title_above'] ) {
 			echo $entry_header;
 		}
-
-		// Define the role, if there is no page title the image takes on the role of title
-		$role = ( ! $instance['show_title'] ) ? '' : 'aria-hidden="true"';
-
-		// Display featured image (Hide if using Custom Link)
-		if ( $instance['feature_type'] == 'page' && $instance['show_image'] == 2 && $featured_image ) {
-
-			if ( $instance['enable_image_link'] == 1 ) {
+		
+		// Display the image
+		if ( $instance['show_image'] ) {
+			
+			// Define the role, if there is no page title the image takes on the role of title
+			$role = ( ! $instance['show_title'] ) ? '' : 'aria-hidden="true"';
+			
+			if ( $instance['feature_type'] == 'page' && $instance['show_image'] == 2 && $featured_image ) {
+				
+				// Display the featured image
+				$image       = $featured_image;
+				$image_title = $page_title;
+				
+			} else if ( $instance['show_image'] == 3 ) {
+				
+				// Display the custom image
+				$atts        = $instance['image_alignment'] == 'aligncenter' ? array( 'class' => 'entry-image', 'style' => 'display:block;margin:0 auto;' ) : array( 'class' => 'entry-image' );
+				$image       = wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, $atts );
+				$image_title = $instance['feature_type'] == 'page' ? $page_title : esc_attr( $instance['custom_title'] );
+				
+			}
+			
+			if ( $instance['enable_image_link'] ) {
 				printf( 
 					'<a href="%s" title="%s" class="%s" target="%s" rel="%s" %s>%s</a>', 
 					$link_url, 
-					$page_title, 
+					$image_title, 
 					esc_attr( $instance['image_alignment'] ), 
 					esc_attr( $instance['target_attr'] ), 
 					esc_attr( $instance['rel_attr'] ), 
 					$role, 
-					$featured_image 
+					$image 
 				);
 			} else {
+				
 				// The <span> replaces the <a> so the image alignment feature still works (unfortunately need to use text-align here, which is not optimal)
 				$align_center_fix = $instance['image_alignment'] == 'aligncenter' ? 'style="text-align:center"' : '';
 				
@@ -289,56 +303,8 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 					esc_attr( $instance['image_alignment'] ), 
 					$align_center_fix,
 					$role, 
-					$featured_image 
-				);
-			}
-		}
-
-		// Display custom image
-		if ( $instance['show_image'] == 3 ) {
-
-			$atts  = $instance['image_alignment'] == 'aligncenter' ? array( 'class' => 'entry-image', 'style' => 'display:block;margin:0 auto;' ) : array( 'class' => 'entry-image' );
-			$image = wp_get_attachment_image( $instance['attachment_id'], $instance['custom_image_size'], false, $atts );
-
-			if ( $instance['feature_type'] == 'page' && $instance['enable_image_link'] == 1 ) {
-				printf( 
-					'<a href="%s" title="%s" class="%s" target="%s" rel="%s" %s>%s</a>', 
-					$link_url, 
-					$page_title, 
-					esc_attr( $instance['image_alignment'] ), 
-					esc_attr( $instance['target_attr'] ), 
-					esc_attr( $instance['rel_attr'] ), 
-					$role, 
 					$image 
 				);
-			} elseif ($instance['feature_type'] == 'custom' && $instance['enable_image_link'] == 1 ) {
-				printf( 
-					'<a href="%s" title="%s" class="%s" target="%s" rel="%s" %s>%s</a>', 
-					esc_url( $instance['custom_link'] ), 
-					esc_attr( $instance['custom_title'] ), 
-					esc_attr( $instance['image_alignment'] ), 
-					esc_attr( $instance['target_attr'] ), 
-					esc_attr( $instance['rel_attr'] ), 
-					$role, 
-					$image 
-				);
-			} else {
-				// The <span> replaces the <a> so the image alignment feature still works (we manually apply the styling to image)
-				if ( $instance['image_alignment'] == 'aligncenter' ) {
-					printf( 
-						'<span class="%s" %s>%s</span>', 
-						esc_attr( $instance['image_alignment'] ), 
-						$role, 
-						$image 
-					);
-				} else {
-					printf( 
-						'<span class="%s" %s>%s</span>', 
-						esc_attr( $instance['image_alignment'] ), 
-						$role, 
-						$image 
-					);
-				}
 			}
 		}
 

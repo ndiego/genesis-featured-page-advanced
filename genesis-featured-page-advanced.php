@@ -62,7 +62,7 @@ function fpa_load_textdomain() {
 /**
  * Include the Widget Class file
  */
-include_once dirname( __FILE__ ) . '/inc/widget-class.php';
+include_once dirname( __FILE__ ) . '/includes/widget-class.php';
 
 
 add_action( 'widgets_init', 'fpa_register_widget' );
