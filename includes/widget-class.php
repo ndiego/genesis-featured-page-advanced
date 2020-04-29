@@ -262,7 +262,7 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			echo $entry_header;
 		}
 		
-		// Display the image
+		// Display the image if there is one
 		if ( $instance['show_image'] ) {
 			
 			// Define the role, if there is no page title the image takes on the role of title
@@ -299,7 +299,8 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				// The <span> replaces the <a> so the image alignment feature still works (unfortunately need to use text-align here, which is not optimal)
 				$align_center_fix = $instance['image_alignment'] == 'aligncenter' ? 'style="text-align:center"' : '';
 				
-				printf( '<span class="%s" %s %s>%s</span>', 
+				printf( 
+					'<span class="%s" %s %s>%s</span>', 
 					esc_attr( $instance['image_alignment'] ), 
 					$align_center_fix,
 					$role, 
