@@ -1,0 +1,151 @@
+/**
+ * The following block styles get applied inside the editor only.
+ */
+.wp-block-gfpa-featured-page {
+
+	a {
+		cursor: pointer;
+	}
+
+	.components-placeholder__fieldset {
+
+		form {
+			flex-direction: column;
+		}
+	}
+
+	.components-placeholder__button-group {
+		margin-top: 1em;
+	}
+
+	.components-base-control__help {
+		margin: 0;
+	}
+
+	.replace-image {
+
+		button {
+			margin-bottom: 20px;
+		}
+	}
+
+	.featured-image {
+		position: relative;
+		line-height: 0;
+		margin: 1.33em 0;
+
+		&.aligncenter {
+			text-align: center;
+		}
+	}
+
+	.entry-header {
+		margin: 1.33em 0;
+
+		.entry-title {
+			display: inline-block;
+			margin: 0;
+		}
+
+		.custom-title-link {
+			margin: 2px 0 0 6px;
+			display: inline-block;
+			vertical-align: top;
+
+			&:hover {
+
+				svg {
+					fill: #0073aa;
+				}
+			}
+		}
+
+		.no-title {
+			opacity: 0.62;
+		}
+	}
+
+	.entry-content {
+		margin: 1.33em 0;
+
+		div {
+			display: inline;
+		}
+
+		p {
+			display: inline;
+			margin: 0 0 1.33em;
+		}
+
+		.more-link {
+			padding-left: 6px;
+		}
+
+		&.has-more-link {
+
+			&.new-line {
+
+				div,
+				p {
+					display: block;
+				}
+
+				.more-link {
+					padding: 0;
+				}
+			}
+		}
+	}
+
+	.page-selection-loading {
+		width: 100%;
+		margin-bottom: 8px;
+
+		label.spinner-label {
+			margin-bottom: 4px;
+			display: inline-block;
+		}
+
+		div.spinner-container {
+			border-radius: 3px;
+			cursor: not-allowed;
+			padding: 0 24px 0 0;
+			margin: 1px -1px 1px 1px;
+			min-height: 30px;
+			max-width: 25rem;
+			border: 1px solid #7e8993;
+			background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+			background-size: 16px 16px;
+
+			.components-spinner {
+				float: left;
+			}
+		}
+	}
+}
+
+/**
+ * Styles specifically for the link popover, markup is not inside the main
+ * block container.
+ */
+.wp-block-gfpa-featured-page_link-popover-container {
+	padding: 16px;
+
+	.components-external-link > span {
+		display: inline-block;
+		max-width: 200px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		vertical-align: middle;
+	}
+
+	.missing-url {
+
+		span {
+			display: inline;
+			vertical-align: middle;
+			padding-right: 5px;
+		}
+	}
+}

@@ -1,0 +1,102 @@
+{
+	"name": "gfpa/featured-page",
+	"category": "widgets",
+	"attributes": {
+		"pageType": {
+			"type": "string"
+		},
+		"pageId": {
+			"type": "string",
+			"default": ""
+		},
+		"customUrl": {
+			"type": "string"
+		},
+		"enableImage": {
+			"type": "boolean",
+			"default": true
+		},
+		"imageType": {
+			"type": "string",
+			"default": "featured"
+		},
+		"customImageId": {
+			"type": "number"
+		},
+		"imageAltText": {
+			"type": "string",
+			"default": ""
+		},
+		"imageSize": {
+			"type": "string",
+			"default": "large"
+		},
+		"imageAlignment": {
+			"type": "string",
+			"default": "none"
+		},
+		"enableImageLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"enableTitle": {
+			"type": "boolean",
+			"default": true
+		},
+		"titleType": {
+			"type": "string",
+			"default": "page"
+		},
+		"customTitle": {
+			"type": "string",
+			"default": ""
+		},
+		"enableTitleLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"positionTitleAbove": {
+			"type": "boolean",
+			"default": false
+		},
+		"enableContent": {
+			"type": "boolean",
+			"default": true
+		},
+		"contentType": {
+			"type": "string",
+			"default": "exerpt"
+		},
+		"contentWordCount": {
+			"type": "number",
+			"default": "50"
+		},
+		"customContent": {
+			"type": "string",
+			"default": ""
+		},
+		"enableMoreLink": {
+			"type": "boolean",
+			"default": true
+		},
+		"moreLinkText": {
+			"type": "string"
+		},
+		"moreLinkNewLine": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkNewTab": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkNoFollow": {
+			"type": "boolean",
+			"default": false
+		},
+		"linkSponsored": {
+			"type": "boolean",
+			"default": false
+		}
+	}
+}
