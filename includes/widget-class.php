@@ -417,8 +417,6 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			)
 		);
 
-
-
 		echo $args['after_widget'];
 	}
 
@@ -495,7 +493,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				value="1" 
 				<?php checked( $instance['widget_title_below'] ); ?>
 			/>
-			<label for="<?php echo $this->get_field_id( 'widget_title_below' ); ?>"><?php _e( 'Position Title Below Image', 'genesis-featured-page-advanced' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'widget_title_below' ); ?>">
+				<?php _e( 'Position Title Below Image', 'genesis-featured-page-advanced' ); ?>
+			</label>
 		</p>
 
 		<hr class="div" />
@@ -510,7 +510,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 					value="page" 
 					<?php checked( 'page', $instance['feature_type'] ); ?>
 				/>
-				<span><?php _e( 'Feature a Page', 'genesis-featured-page-advanced' ); ?></span>
+				<span>
+					<?php _e( 'Feature a Page', 'genesis-featured-page-advanced' ); ?>
+				</span>
 			</label>
 			<br />
 			<label for="<?php echo $this->get_field_id( 'feature_custom' ); ?>">
@@ -520,7 +522,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 					value="custom"  
 					<?php checked( 'custom', $instance['feature_type'] ); ?> 
 				/>
-				<span><?php _e( 'Feature a Custom Page Link', 'genesis-featured-page-advanced' ); ?></span>
+				<span>
+					<?php _e( 'Feature a Custom Page Link', 'genesis-featured-page-advanced' ); ?>
+				</span>
 			</label>
 			<br />
 		</div>
@@ -529,7 +533,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			id="<?php echo $this->get_field_id('feature_type_page'); ?>"
 		>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'page_id' ); ?>"><?php _e( 'Select Page', 'genesis-featured-page-advanced' ); ?>:</label>
+				<label for="<?php echo $this->get_field_id( 'page_id' ); ?>">
+					<?php _e( 'Select Page', 'genesis-featured-page-advanced' ); ?>:
+				</label>
 				<?php wp_dropdown_pages( array( 'name' => $this->get_field_name( 'page_id' ), 'selected' => $instance['page_id'] ) ); ?>
 			</p>
 		</div>
@@ -538,7 +544,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			id="<?php echo $this->get_field_id('feature_type_custom'); ?>"
 		>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'custom_link' ); ?>"><?php _e( 'Custom Page Link', 'genesis-featured-page-advanced' ); ?>:</label>
+				<label for="<?php echo $this->get_field_id( 'custom_link' ); ?>">
+					<?php _e( 'Custom Page Link', 'genesis-featured-page-advanced' ); ?>:
+				</label>
 				<input 
 					type="text" 
 					id="<?php echo $this->get_field_id( 'custom_link' ); ?>" 
@@ -642,7 +650,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			class="fpa-image-size <?php if ( $instance['show_image'] != 2 ) echo ('hidden');  ?>" 
 			id="<?php echo $this->get_field_id('toggle_image_size'); ?>" 
 		>
-			<label for="<?php echo $this->get_field_id( 'image_size' ); ?>"><?php _e( 'Featured Image Size', 'genesis-featured-page-advanced' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'image_size' ); ?>">
+				<?php _e( 'Featured Image Size', 'genesis-featured-page-advanced' ); ?>:
+			</label>
 			<select 
 				id="<?php echo $this->get_field_id( 'image_size' ); ?>" 
 				class="genesis-image-size-selector" 
@@ -713,7 +723,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				value="<?php echo $instance['custom_image']; ?>" 
 			/>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'custom_image_size' ); ?>"><?php _e( 'Custom Image Size', 'genesis-featured-page-advanced' ); ?>:</label>
+				<label for="<?php echo $this->get_field_id( 'custom_image_size' ); ?>">
+					<?php _e( 'Custom Image Size', 'genesis-featured-page-advanced' ); ?>:
+				</label>
 				<select 
 					id="<?php echo $this->get_field_id( 'custom_image_size' ); ?>" 
 					class="genesis-image-size-selector" 
@@ -752,7 +764,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			class="<?php if ( $instance['show_image'] == 1 ) echo ('hidden'); ?>" 
 			id="<?php echo $this->get_field_id('toggle_image_alignment'); ?>"
 		>
-			<label for="<?php echo $this->get_field_id( 'image_alignment' ); ?>"><?php _e( 'Image Alignment', 'genesis-featured-page-advanced' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'image_alignment' ); ?>">
+				<?php _e( 'Image Alignment', 'genesis-featured-page-advanced' ); ?>:
+			</label>
 			<select 
 				id="<?php echo $this->get_field_id( 'image_alignment' ); ?>" 
 				name="<?php echo $this->get_field_name( 'image_alignment' ); ?>"
@@ -783,7 +797,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				value="1" 
 				<?php checked( 1, $instance['enable_image_link'] ); ?>
 			/>
-			<label for="<?php echo $this->get_field_id( 'enable_image_link' ); ?>"><?php _e( 'Enable Image Link', 'genesis-featured-page-advanced' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'enable_image_link' ); ?>">
+				<?php _e( 'Enable Image Link', 'genesis-featured-page-advanced' ); ?>
+			</label>
 		</p>
 
 		<hr class="div" />
@@ -797,7 +813,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 					name="<?php echo $this->get_field_name( 'show_title' ); ?>" 
 					value="0" <?php checked( 0, $instance['show_title'] ); ?>
 				/>
-				<span><?php _e( 'No Page Title', 'genesis-featured-page-advanced' ); ?></span>
+				<span>
+					<?php _e( 'No Page Title', 'genesis-featured-page-advanced' ); ?>
+				</span>
 			</label>
 			<br />
 			<label for="<?php echo $this->get_field_id( 'show_page_title' ); ?>">
@@ -812,7 +830,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				<span 
 					class="<?php if ( $instance['feature_type'] != 'page' ) echo ('fpa-disabled'); ?>" 
 					id="<?php echo $this->get_field_id( 'page_title_disable' ); ?>"
-				><?php _e( 'Show Page Title', 'genesis-featured-page-advanced' ); ?></span>
+				>
+					<?php _e( 'Show Page Title', 'genesis-featured-page-advanced' ); ?>
+				</span>
 			</label>
 			<br />
 			<label for="<?php echo $this->get_field_id( 'show_custom_title' ); ?>">
@@ -823,7 +843,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 					value="2" 
 					<?php checked( 2, $instance['show_title'] ); ?>
 				/>
-				<span><?php _e( 'Show Custom Page Title', 'genesis-featured-page-advanced' ); ?></span>
+				<span>
+					<?php _e( 'Show Custom Page Title', 'genesis-featured-page-advanced' ); ?>
+				</span>
 			</label>
 		</div>
 
@@ -832,7 +854,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			class="<?php if ( $instance['show_title'] != 2 ) echo ('hidden'); ?>" 
 			id="<?php echo $this->get_field_id('toggle_custom_title'); ?>"
 		>
-			<label for="<?php echo $this->get_field_id( 'custom_title' ); ?>"><?php _e( 'Custom Page Title', 'genesis-featured-page-advanced' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'custom_title' ); ?>">
+				<?php _e( 'Custom Page Title', 'genesis-featured-page-advanced' ); ?>:
+			</label>
 			<input 
 				type="text" 
 				id="<?php echo $this->get_field_id( 'custom_title' ); ?>" 
@@ -852,7 +876,9 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				value="1" 
 				<?php checked( 1, $instance['enable_page_title_link'] ); ?>
 			/>
-			<label for="<?php echo $this->get_field_id( 'enable_page_title_link' ); ?>"><?php _e( 'Enable Page Title Link', 'genesis-featured-page-advanced' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'enable_page_title_link' ); ?>">
+				<?php _e( 'Enable Page Title Link', 'genesis-featured-page-advanced' ); ?>
+			</label>
 		</p>
 		<p 
 			class="<?php if ( $instance['show_title'] == 0 ) echo ('hidden'); ?>" 
@@ -864,14 +890,16 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 				value="1" 
 				<?php checked( $instance['page_title_above'] ); ?> 
 			/>
-			<label for="<?php echo $this->get_field_id( 'page_title_above' ); ?>"><?php _e( 'Position Page Title Above Image', 'genesis-featured-page-advanced' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'page_title_above' ); ?>">
+				<?php _e( 'Position Page Title Above Image', 'genesis-featured-page-advanced' ); ?>
+			</label>
 		</p>
 
 		<hr class="div" />
 
 		<!--Featured Page Specific Settings - Hide if using Custom Link-->
 		<div 
-			class="<?php if ( $instance['feature_type'] != 'page' ) echo ('hidden');  ?>" 
+			class="<?php if ( $instance['feature_type'] != 'page' ) echo ('hidden');?>" 
 			id="<?php echo $this->get_field_id('feature_type_page_settings'); ?>" 
 		>
 		
