@@ -1007,15 +1007,26 @@ class Genesis_Featured_Page_Advanced extends WP_Widget {
 			// Enqueues all media scripts so we can use the media uploader
 			wp_enqueue_media();
 
-			wp_register_script( 'fpa_admin_scripts', plugin_dir_url( __FILE__ ) . '../assets/js/admin-scripts.js', array( 'jquery' ) );
+			wp_register_script( 
+				'fpa_admin_scripts', 
+				plugin_dir_url( __FILE__ ) . '../assets/js/admin-scripts.js', 
+				array( 'jquery' ) 
+			);
 			wp_enqueue_script( 'fpa_admin_scripts' );
 
-			wp_localize_script( 'fpa_admin_scripts', 'fpa_localize_admin_scripts', array(
-        		'media_title' => __( 'Choose or Upload an Image', 'genesis-featured-page-advanced' ),
-        		'media_button' => __( 'Use Selected Image', 'genesis-featured-page-advanced' )
-    		) );
+			wp_localize_script( 
+				'fpa_admin_scripts', 
+				'fpa_localize_admin_scripts', 
+				array(
+        			'media_title' => __( 'Choose or Upload an Image', 'genesis-featured-page-advanced' ),
+        			'media_button' => __( 'Use Selected Image', 'genesis-featured-page-advanced' )
+    			) 
+			);
 
-			wp_register_style( 'fpa_admin_styles', plugin_dir_url( __FILE__ ) . '../assets/css/admin-styles.css' );
+			wp_register_style( 
+				'fpa_admin_styles', 
+				plugin_dir_url( __FILE__ ) . '../assets/css/admin-styles.css' 
+			);
 			wp_enqueue_style( 'fpa_admin_styles' );
 
 		} else {

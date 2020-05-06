@@ -34,29 +34,6 @@ define( 'GFPA_PLUGIN_FILE', __FILE__ );
 define( 'GFPA_PLUGIN_BASE', plugin_basename( __FILE__ ) );
 define( 'GFPA_REVIEW_URL', 'https://wordpress.org/support/plugin/genesis-featured-page-advanced/reviews/?filter=5' );
 
-register_activation_hook( __FILE__, 'fpa_activation_check' );
-/**
- * This function runs on plugin activation. It checks to make sure the required
- * minimum Genesis version is installed. If not, it deactivates itself.
- *
- * 	Author: Nathan Rice
- *	Author URI: http://www.nathanrice.net/
- */
-function fpa_activation_check() {
-	$latest = '2.0';
-	$theme_info = wp_get_theme( 'genesis' );
-
-	if ( 'genesis' != basename( TEMPLATEPATH ) ) {
-		deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
-		wp_die( sprintf( __( 'Sorry, you can\'t activate %1$sGenesis - Featured Page Advanced%2$s unless you have installed the %3$sGenesis Framework%4$s. Go back to the %5$sPlugins Page%4$s.', 'genesis-featured-page-advanced' ), '<em>', '</em>', '<a href="http://www.studiopress.com/themes/genesis" target="_blank">', '</a>', '<a href="javascript:history.back()">' ) );
-	}
-
-	if ( version_compare( $theme_info['Version'], $latest, '<' ) ) {
-		deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
-		wp_die( sprintf( __( 'Sorry, you can\'t activate %1$sGenesis - Featured Page Advanced%2$s unless you have installed the %3$sGenesis %4$s%5$s. Go back to the %6$sPlugins Page%5$s.', 'genesis-featured-page-advanced' ), '<em>', '</em>', '<a href="http://www.studiopress.com/themes/genesis" target="_blank">', $latest, '</a>', '<a href="javascript:history.back()">' ) );
-	}
-}
-
 
 if ( ! class_exists( 'GenesisFeaturedPageAdvanced' ) ) :
 	/**
@@ -126,10 +103,11 @@ if ( ! class_exists( 'GenesisFeaturedPageAdvanced' ) ) :
 			require_once GFPA_PLUGIN_DIR . 'includes/class-gfpa-block-assets.php';
             require_once GFPA_PLUGIN_DIR . 'includes/get-dynamic-blocks.php';
             
-            require_once GFPA_PLUGIN_DIR . 'includes/widget-class.php';
+            require_once GFPA_PLUGIN_DIR . 'includes/class-gfpa-widget.php';
 
 			if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 				require_once GFPA_PLUGIN_DIR . 'includes/admin/class-gfpa-action-links.php';
+                require_once GFPA_PLUGIN_DIR . 'includes/admin/class-gfpa-install.php';
 			}
 		}
 
@@ -195,15 +173,6 @@ if ( ! class_exists( 'GenesisFeaturedPageAdvanced' ) ) :
         	register_widget( 'Genesis_Featured_Page_Advanced' );
         }
         
-		/**
-        * @TODO Figure this out
-		 * Is an AMP endpoint.
-		 *
-		 * @return bool Whether the current response will be AMP.
-		 */
-		/*public function is_amp() {
-			return function_exists( 'is_amp_endpoint' ) && is_amp_endpoint();
-		}*/
 	}
 endif;
 
