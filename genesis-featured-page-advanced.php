@@ -121,7 +121,7 @@ if ( ! class_exists( 'GenesisFeaturedPageAdvanced' ) ) :
 			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ), 99 );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'block_localization' ) );
             
-            add_action( 'widgets_init', array( $this, 'register_widget' ) );
+            add_action( 'widgets_init', array( $this, 'register_widget_class' ) );
 		}
 
 		/**
