@@ -25,23 +25,25 @@ class GFPA_Action_Links {
 	/**
 	 * Plugin row meta links
 	 *
-	 * @param array  $plugin_meta An array of the plugin's metadata.
-	 * @param string $plugin_file Path to the plugin file.
-	 * @return array $input
+ 	 * @since 1.0.0
+	 *
+	 * @param array  $plugin_meta 	An array of the plugin's metadata.
+	 * @param string $plugin_file 	Path to the plugin file.
+	 * @return array $plugin_meta	Updated plugin metadata
 	 */
 	public function plugin_row_meta( $plugin_meta, $plugin_file ) {
 
-		// Check if this is defined.
+		// If we are not on the correct plugin, abort.
 		if ( ! defined( 'GFPA_PLUGIN_BASE' ) ) {
 			define( 'GFPA_PLUGIN_BASE', null );
 		}
 
 		if ( GFPA_PLUGIN_BASE === $plugin_file ) {
-			$row_meta = array(
+			$new_meta = array(
 				'review' => '<a href="' . esc_url( GFPA_REVIEW_URL ) . '" aria-label="' . esc_attr( __( 'Review Genesis Featured Page Advanced on WordPress.org', 'GFPA_textdomain' ) ) . '" target="_blank">' . __( 'Leave a Review', 'GFPA_textdomain' ) . '</a>',
 			);
 
-			$plugin_meta = array_merge( $plugin_meta, $row_meta );
+			$plugin_meta = array_merge( $plugin_meta, $new_meta );
 		}
 
 		return $plugin_meta;
